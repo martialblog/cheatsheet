@@ -13,5 +13,6 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 A lot of stuff... I just started. Stay tuned.
 
 - Add some example cheat sheets (git, bash, emacs, etc)
+- Clean up imports
 - Maybe categories?
 - Tell my mom about it
