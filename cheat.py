@@ -12,7 +12,7 @@ import configparser
 desc = "Cool Command-Line Cheatsheets"
 extension = ".ini"
 cheatsheets = {}
-configDir = "."
+configDir = "./config/"
 cfgParser = configparser.ConfigParser()
 argParser = argparse.ArgumentParser(description=desc)
 
@@ -23,9 +23,14 @@ group.add_argument("-b", "--breakline", action="store_true", help="Output break 
 argParser.add_argument("cheatsheet", help="The cheatsheet you want to see")
 
 def printInline():
+    width = 10
+
     for key in cfgParser['cheats']:
-        #TODO: Dynamic formatting
-        output = "{0:<40} {1}".format(key, cfgParser['cheats'][key])
+        if len(key) > width:
+            width = len(key)
+
+    for key in cfgParser['cheats']:
+        output = "{0:<{1}} {2}".format(key, width, cfgParser['cheats'][key])
         print(output)
 
 def printBreakline():
@@ -37,7 +42,7 @@ def indexCheatsheets():
     tmpParser = configparser.ConfigParser()
     for filename in os.listdir(configDir):
         if filename.endswith(extension):
-            tmpParser.read(filename)
+            tmpParser.read(configDir + filename)
             cheatsheets[tmpParser['main']['name']] = filename
 
 def main():
@@ -46,7 +51,7 @@ def main():
     indexCheatsheets()
 
     if args.cheatsheet in cheatsheets.keys():
-        cfgParser.read(cheatsheets[args.cheatsheet])
+        cfgParser.read(configDir + cheatsheets[args.cheatsheet])
 
         if args.breakline:
             printBreakline()
