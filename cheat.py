@@ -23,14 +23,15 @@ group.add_argument("-b", "--breakline", action="store_true", help="Output break 
 argParser.add_argument("cheatsheet", help="The cheatsheet you want to see")
 
 def printInline():
-    #print inline
     for key in cfgParser['cheats']:
-        print(key +": "+ cfgParser['cheats'][key])
+        #TODO: Dynamic formatting
+        output = "{0:<40} {1}".format(key, cfgParser['cheats'][key])
+        print(output)
 
 def printBreakline():
-    #print breakline
     for key in cfgParser['cheats']:
-        print(key +":\n"+ cfgParser['cheats'][key])
+        output = "{0} \n {1}".format(key, cfgParser['cheats'][key])
+        print(output)
 
 def indexCheatsheets():
     tmpParser = configparser.ConfigParser()
