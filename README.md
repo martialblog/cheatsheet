@@ -11,12 +11,15 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 
 ##Installation
 To use, clone this repository to ```~/cheat.d```. Like so:
+
 ```https://github.com/martialblog/cheatsheet.git ~/cheat.d```
 
 For usability you can set an alias.
+
 ```alias cheat="python3 ~/cheat.d/cheat.py"```
 
 And of you go!
+
 ```user@comuter$ cheat git```
 
 ##TODO
