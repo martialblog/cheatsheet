@@ -12,7 +12,7 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 ##TODO
 A lot of stuff... I just started. Stay tuned.
 
-- Properly implement that sh*#!t...
+. Format output... some tabs would be nice
 - Config folder for sheets
 - Add some example cheat sheets (git, bash, emacs, etc)
 - Maybe categories?
