@@ -9,6 +9,9 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 - Open-Format so you can customize/add/share
 - Grep-able!
 
+##Requirements
+Nothing but good old Python 3.
+
 ##Installation
 To use, clone this repository to ```~/cheat.d```. Like so:
 
