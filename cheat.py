@@ -11,7 +11,7 @@ import configparser
 
 desc = "Cool Command-Line Cheatsheets"
 extension = ".ini"
-cheatsheets = []
+cheatsheets = {}
 configDir = "."
 cfgParser = configparser.ConfigParser()
 argParser = argparse.ArgumentParser(description=desc)
@@ -27,33 +27,35 @@ def printInline():
     for key in cfgParser['cheats']:
         print(key +": "+ cfgParser['cheats'][key])
 
-def printBreakLine():
+def printBreakline():
     #print breakline
     for key in cfgParser['cheats']:
-        print("\n"+ key +":\n"+ cfgParser['cheats'][key])
+        print(key +":\n"+ cfgParser['cheats'][key])
 
-def createFileList(extension):
-    for file in os.listdir(configDir):
-        if file.endswith(extension):
-            cheatsheets.append(file)
+def indexCheatsheets():
+    tmpParser = configparser.ConfigParser()
+    for filename in os.listdir(configDir):
+        if filename.endswith(extension):
+            tmpParser.read(filename)
+            cheatsheets[tmpParser['main']['name']] = filename
 
 def main():
     args = argParser.parse_args()
-    filename = args.cheatsheet + extension
-    createFileList(extension)
 
-    if not os.path.exists(filename):
-        print("No such file:", filename)
+    indexCheatsheets()
+
+    if args.cheatsheet in cheatsheets.keys():
+        cfgParser.read(cheatsheets[args.cheatsheet])
+
+        if args.breakline:
+            printBreakline()
+        else:
+            printInline()
+
+        exit(0)
+    else:
+        print('Cheatsheet \"'+ args.cheatsheet +'\" not available')
         exit(1)
-    else:
-        cfgParser.read(filename)
-
-    if args.inline:
-        printInline()
-    elif args.breakline:
-        printBreakLine()
-    else:
-        printInline()
 
 if __name__ == "__main__":
     main()
