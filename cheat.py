@@ -8,7 +8,7 @@ import configparser
 desc = "Cool Command-Line Cheatsheets"
 extension = ".ini"
 cheatsheets = {}
-configDir = "./config/"
+configDir = sys.path[0] + "/config/"
 cfgParser = configparser.ConfigParser()
 argParser = argparse.ArgumentParser(description=desc)
 
