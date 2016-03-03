@@ -20,7 +20,7 @@ For usability you can set an alias.
 
 And of you go!
 
-```user@comuter$ cheat git```
+```user@computer$ cheat git```
 
 ##TODO
 A lot of stuff... I just started. Stay tuned.
