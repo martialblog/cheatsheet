@@ -15,7 +15,7 @@ Nothing but good old Python 3.
 ##Installation
 To use, clone this repository to ```~/cheat.d```. Like so:
 
-```https://github.com/martialblog/cheatsheet.git ~/.cheat.d```
+```git clone https://github.com/martialblog/cheatsheet.git ~/.cheat.d```
 
 For usability you can set an alias.
 
