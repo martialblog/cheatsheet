@@ -5,68 +5,104 @@ import os
 import io
 import configparser
 
-desc = "Cool Command-Line Cheatsheets"
-extension = ".ini"
-cheatsheets = {}
-configDir = sys.path[0] + "/config/"
-cfgParser = configparser.ConfigParser()
-argParser = argparse.ArgumentParser(description=desc)
+#Global configuration
+helpDescription = "Cool Command-Line Cheatsheets"
+fileExtension = ".ini"
+AvailableCheatSheets = {}
+configDirectory = sys.path[0] + "/config/"
+configParser = configparser.ConfigParser()
+cmdArgumentsParser = argparse.ArgumentParser(description=helpDescription)
 
-#Command Line Arguments
-group = argParser.add_mutually_exclusive_group()
+#Defining the command-line arguments
+group = cmdArgumentsParser.add_mutually_exclusive_group()
 group.add_argument("-l", "--inline", action="store_true", help="Output each line, this is default")
 group.add_argument("-b", "--breakline", action="store_true", help="Output break line")
-argParser.add_argument("cheatsheet", help="The cheatsheet you want to see")
+cmdArgumentsParser.add_argument("cheatsheet", help="The cheatsheet you want to see")
 
-def printInline():
+def getDescriptionWidth():
+    """
+    Returns the width of the longest description in the cheatsheet, so that the output can be dynamic.
+    """
 
     width = 10
 
-    for key in cfgParser['cheats']:
-        if len(key) > width:
-            width = len(key)
+    for description in configParser['cheats']:
+        if len(description) > width:
+            width = len(description)
 
-    for key in cfgParser['cheats']:
-        output = "{0:<{1}} {2}".format(key, width, cfgParser['cheats'][key])
+    return width
+
+def printInline():
+    """
+    Prints the cheatssheet inline, so that it's grepable.
+    """
+
+    for description in configParser['cheats']:
+        value = configParser['cheats'][description]
+        output = "{0:<{1}} {2}".format(description, getDescriptionWidth(), value)
         print(output)
 
 def printBreakline():
+    """
+    Prints the cheatsheet with newlines
+    """
 
-    for key in cfgParser['cheats']:
-        output = "{0} \n {1}".format(key, cfgParser['cheats'][key])
+    for description in configParser['cheats']:
+        value = configParser['cheats'][description]
+        output = "{0} \n {1}".format(description, value)
         print(output)
 
+def printCheatSheet(breakline):
+    """
+    Prints the already parsed cheatsheet either inline or with newlines
+    """
+
+    if breakline:
+        printBreakline()
+    else:
+        printInline()
+
 def indexCheatsheets():
+    """
+    Indexes the available INI files within the config folder
+    """
 
-    tmpParser = configparser.ConfigParser()
+    tempParser = configparser.ConfigParser()
 
-    for filename in os.listdir(configDir):
+    for filename in os.listdir(configDirectory):
         try:
-            if filename.endswith(extension):
-                tmpParser.read(configDir + filename)
-                cheatsheets[tmpParser['main']['name']] = filename
+            #If the file exsists, put it into the available cheathssheets
+            if filename.endswith(fileExtension):
+                tempParser.read(configDirectory + filename)
+                AvailableCheatSheets[tempParser['main']['name']] = filename
+
         except configparser.MissingSectionHeaderError as exception:
             print(exception)
 
-def main():
+def parseRequestedCheatSheet(requestedCheatsheet):
+    """
+    Parses the requested cheatsheet. If the cheatsheet isn't available the program exits with status 1
+    """
 
-    args = argParser.parse_args()
-
-    indexCheatsheets()
-
-    if args.cheatsheet in cheatsheets.keys():
-        cfgParser.read(configDir + cheatsheets[args.cheatsheet])
-
-        if args.breakline:
-            printBreakline()
-        else:
-            printInline()
-
-        exit(0)
+    if requestedCheatsheet in AvailableCheatSheets.keys():
+        pathToFile = configDirectory + AvailableCheatSheets[requestedCheatsheet]
+        configParser.read(pathToFile)
 
     else:
-        print('Cheatsheet \"'+ args.cheatsheet +'\" not available')
+        print('Cheatsheet \"'+ requestedCheatsheet +'\" not available')
         exit(1)
+
+def main():
+
+    cmdArguments = cmdArgumentsParser.parse_args()
+
+    #Where the magic happens
+    indexCheatsheets()
+    parseRequestedCheatSheet(cmdArguments.cheatsheet)
+    printCheatSheet(cmdArguments.breakline)
+
+    #Everything is fine and we can exit with 0
+    exit(0)
 
 if __name__ == "__main__":
     main()
