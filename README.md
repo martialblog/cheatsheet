@@ -28,8 +28,7 @@ And of you go!
 ##TODO
 A lot of stuff... I just started. Stay tuned.
 
-- Refactor code a bit... 
+- Refactor code a bit... Maybe inherit configparser?
 - Add more cheatsheets! MORE!
-- Clean up imports
 - Maybe categories?
 - Tell my mom about it
