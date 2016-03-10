@@ -25,8 +25,8 @@ And of you go!
 
 ```user@computer$ cheat git```
 
-##Custom cheatsheets
-You can add custom cheatsheet that will be gitgnored by using the prexif ```my-```
+###Custom cheatsheets
+You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my-```
 
 ##TODO
 A lot of stuff... I just started. Stay tuned.
