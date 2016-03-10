@@ -31,6 +31,7 @@ You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my
 ##TODO
 A lot of stuff... I just started. Stay tuned.
 
+- Sort output
 - Refactor code a bit... Maybe inherit configparser?
 - Add more cheatsheets! MORE!
 - Maybe categories?
