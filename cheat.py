@@ -88,19 +88,23 @@ class CheatParser:
             exit(1)
 
 def main():
-    #Define the command-line arguments... TODO: I gotta clean that up
-    argumentParser = argparse.ArgumentParser(description="Command-line cheatsheets")
-    argumentParser.add_argument("cheatsheet", help="The cheatsheet you want to see")
+    _directory = path[0] + "/config/"
+    _extention = ".ini"
+    _description = "Cool Command-line Cheatsheets"
+    _help_general = "The cheatsheet you want to see"
+    _help_inline = "One cheat per line, this is default"
+    _help_breakline = "Break lines"
+
+    #Define the command-line arguments.
+    argumentParser = argparse.ArgumentParser(description=_description)
+    argumentParser.add_argument("cheatsheet", help=_help_general)
     group = argumentParser.add_mutually_exclusive_group()
-    group.add_argument("-l", "--inline", action="store_true", help="Output each line, this is default")
-    group.add_argument("-b", "--breakline", action="store_true", help="Output break line")
+    group.add_argument("-l", "--inline", action="store_true", help=_help_inline)
+    group.add_argument("-b", "--breakline", action="store_true", help=_help_breakline)
     cmdArguments = argumentParser.parse_args()
 
-    directory = path[0] + "/config/"
-    extention = ".ini"
-
     #Initialize CheatParser
-    cp = CheatParser(extention, directory)
+    cp = CheatParser(_extention, _directory)
     cp.indexCheatsheets()
     cp.parseRequestedCheatSheet(cmdArguments.cheatsheet)
     cp.printCheatSheet(cmdArguments.breakline)
