@@ -13,7 +13,7 @@ class CheatParser:
         self._configParser = configparser.ConfigParser()
         self._file_extension = extention
 
-    def _getDescriptionWidth(self):
+    def getDescriptionWidth(self):
         """
         Returns the width of the longest description in the cheatsheet, so that the output can be dynamic.
         """
@@ -26,17 +26,18 @@ class CheatParser:
 
         return width
 
-    def _printInline(self):
+    def printInline(self):
         """
         Prints the cheatssheet inline, so that it's grep-able.
         """
 
         for description in self._configParser['cheats']:
             value = self._configParser['cheats'][description]
-            output = "{0:<{1}} {2}".format(description, self._getDescriptionWidth(), value)
+            output = "{0:<{1}} {2}".format(description, self.getDescriptionWidth(), value)
+
             print(output)
 
-    def _printBreakline(self):
+    def printBreakline(self):
         """
         Prints the cheatsheet with newlines
         """
@@ -44,7 +45,14 @@ class CheatParser:
         for description in self._configParser['cheats']:
             value = self._configParser['cheats'][description]
             output = "{0} \n {1}".format(description, value)
+
             print(output)
+
+    def printCheatsheetNotAvailable(self, cheatsheet):
+        """
+        Print error if cheatsheet isn't there
+        """
+        print(cheatsheet +' - Cheatsheet not available')
 
     def printCheatSheet(self, breakline):
         """
@@ -52,15 +60,16 @@ class CheatParser:
         """
 
         if breakline:
-            self._printBreakline()
+            self.printBreakline()
         else:
-            self._printInline()
+            self.printInline()
 
     def indexCheatsheets(self):
         """
         Indexes the available INI files within the config folder
         """
 
+        #TODO: Better way to do this without tempParser?
         tempParser = configparser.ConfigParser()
 
         for filename in listdir(self._config_directory):
@@ -69,6 +78,7 @@ class CheatParser:
                 if filename.endswith(self._file_extension):
                     path_to_file = self._config_directory + filename
                     tempParser.read(path_to_file)
+
                     self._available_cheatsheets[tempParser['main']['name']] = filename
 
             except configparser.Error as exception:
@@ -84,27 +94,27 @@ class CheatParser:
             self._configParser.read(path_to_file)
 
         else:
-            print('Cheatsheet \"'+ requested_cheatsheet +'\" not available')
+            self.printCheatsheetNotAvailable(requested_cheatsheet)
             exit(1)
 
 def main():
-    _directory = path[0] + "/config/"
-    _extention = ".ini"
-    _description = "Cool Command-line Cheatsheets"
-    _help_general = "The cheatsheet you want to see"
-    _help_inline = "One cheat per line, this is default"
-    _help_breakline = "Break lines"
+    directory = path[0] + "/config/"
+    extention = ".ini"
+    description = "Cool Command-line Cheatsheets"
+    help_general = "The cheatsheet you want to see"
+    help_inline = "One cheat per line, this is default"
+    help_breakline = "Break lines"
 
     #Define the command-line arguments.
-    argumentParser = argparse.ArgumentParser(description=_description)
-    argumentParser.add_argument("cheatsheet", help=_help_general)
+    argumentParser = argparse.ArgumentParser(description=description)
+    argumentParser.add_argument("cheatsheet", help=help_general)
     group = argumentParser.add_mutually_exclusive_group()
-    group.add_argument("-l", "--inline", action="store_true", help=_help_inline)
-    group.add_argument("-b", "--breakline", action="store_true", help=_help_breakline)
+    group.add_argument("-l", "--inline", action="store_true", help=help_inline)
+    group.add_argument("-b", "--breakline", action="store_true", help=help_breakline)
     cmdArguments = argumentParser.parse_args()
 
     #Initialize CheatParser
-    cp = CheatParser(_extention, _directory)
+    cp = CheatParser(extention, directory)
     cp.indexCheatsheets()
     cp.parseRequestedCheatSheet(cmdArguments.cheatsheet)
     cp.printCheatSheet(cmdArguments.breakline)
