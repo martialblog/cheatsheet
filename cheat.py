@@ -5,13 +5,10 @@ from sys import path
 from sys import exit
 from os import listdir
 
-class CheatParser:
+class CheatPrinter:
 
-    def __init__(self, extention, directory):
-        self._available_cheatsheets = {}
-        self._config_directory = directory
-        self._configParser = configparser.ConfigParser()
-        self._file_extension = extention
+    def __init__(self, configparser):
+        self.configparser = configparser
 
     def getDescriptionWidth(self):
         """
@@ -20,7 +17,7 @@ class CheatParser:
 
         width = 10
 
-        for description in self._configParser['cheats']:
+        for description in self.configparser['cheats']:
             if len(description) > width:
                 width = len(description)
 
@@ -31,9 +28,11 @@ class CheatParser:
         Prints the cheatssheet inline, so that it's grep-able.
         """
 
-        for description in self._configParser['cheats']:
-            value = self._configParser['cheats'][description]
-            output = "{0:<{1}} {2}".format(description, self.getDescriptionWidth(), value)
+        width = self.getDescriptionWidth()
+
+        for description in self.configparser['cheats']:
+            value = self.configparser['cheats'][description]
+            output = "{0:<{1}} {2}".format(description, width, value)
 
             print(output)
 
@@ -42,17 +41,11 @@ class CheatParser:
         Prints the cheatsheet with newlines
         """
 
-        for description in self._configParser['cheats']:
-            value = self._configParser['cheats'][description]
+        for description in self.configparser['cheats']:
+            value = self.configparser['cheats'][description]
             output = "{0} \n {1}".format(description, value)
 
             print(output)
-
-    def printCheatsheetNotAvailable(self, cheatsheet):
-        """
-        Print error if cheatsheet isn't there
-        """
-        print(cheatsheet +' - Cheatsheet not available')
 
     def printCheatSheet(self, breakline):
         """
@@ -64,22 +57,38 @@ class CheatParser:
         else:
             self.printInline()
 
+class CheatHandler:
+
+    def __init__(self, extention, directory):
+        self.configParser = configparser.ConfigParser()
+        self.__available_cheatsheets = {}
+        self.__config_directory = directory
+        self.__file_extension = extention
+
+    def getConfigParser(self):
+        return self.configParser
+
+    def printCheatsheetNotAvailable(self, cheatsheet):
+        """
+        Print error if cheatsheet isn't there
+        """
+        print(cheatsheet +' - Cheatsheet not available')
+
     def indexCheatsheets(self):
         """
         Indexes the available INI files within the config folder
         """
 
-        #TODO: Better way to do this without tempParser?
         tempParser = configparser.ConfigParser()
 
-        for filename in listdir(self._config_directory):
+        for filename in listdir(self.__config_directory):
             try:
                 #If the file exsists, put it into the available cheathssheets
-                if filename.endswith(self._file_extension):
-                    path_to_file = self._config_directory + filename
+                if filename.endswith(self.__file_extension):
+                    path_to_file = self.__config_directory + filename
                     tempParser.read(path_to_file)
 
-                    self._available_cheatsheets[tempParser['main']['name']] = filename
+                    self.__available_cheatsheets[tempParser['main']['name']] = filename
 
             except configparser.Error as exception:
                 print(exception)
@@ -89,9 +98,9 @@ class CheatParser:
         Parses the requested cheatsheet. If the cheatsheet isn't available the program exits with status 1
         """
 
-        if requested_cheatsheet in self._available_cheatsheets.keys():
-            path_to_file = self._config_directory + self._available_cheatsheets[requested_cheatsheet]
-            self._configParser.read(path_to_file)
+        if requested_cheatsheet in self.__available_cheatsheets.keys():
+            path_to_file = self.__config_directory + self.__available_cheatsheets[requested_cheatsheet]
+            self.configParser.read(path_to_file)
 
         else:
             self.printCheatsheetNotAvailable(requested_cheatsheet)
@@ -114,10 +123,12 @@ def main():
     cmdArguments = argumentParser.parse_args()
 
     #Initialize CheatParser
-    cp = CheatParser(extention, directory)
-    cp.indexCheatsheets()
-    cp.parseRequestedCheatSheet(cmdArguments.cheatsheet)
-    cp.printCheatSheet(cmdArguments.breakline)
+    chandler = CheatHandler(extention, directory)
+    chandler.indexCheatsheets()
+    chandler.parseRequestedCheatSheet(cmdArguments.cheatsheet)
+
+    cprinter = CheatPrinter(chandler.getConfigParser())
+    cprinter.printCheatSheet(cmdArguments.breakline)
 
     #Everything is fine and we can exit with 0
     exit(0)
