@@ -116,6 +116,10 @@ def main():
 
     #instantiate CheatPrinter based on command-line argument.
     printer_type = cmdArguments.printer
+
+    if printer_type is None:
+        printer_type = 'InlinePrinter'
+
     printer_constructor = globals()[printer_type]
     cprinter = printer_constructor(chandler.getConfigParser())
     cprinter.printCheatSheet()
