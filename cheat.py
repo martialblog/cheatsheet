@@ -5,73 +5,66 @@ from sys import path
 from sys import exit
 from os import listdir
 
-class CheatPrinter:
+class Printer():
 
     def __init__(self, configparser):
-        self.configparser = configparser
+        self._configparser = configparser
+        self._width = 10
+        self.calculateDescriptionWidth()
 
-    def getDescriptionWidth(self):
+    def getWidth():
+        return self._width
+
+    def calculateDescriptionWidth(self):
         """
         Returns the width of the longest description in the cheatsheet, so that the output can be dynamic.
         """
 
-        width = 10
+        for description in self._configparser['cheats']:
+            if len(description) > self._width:
+                self._width = len(description)
 
-        for description in self.configparser['cheats']:
-            if len(description) > width:
-                width = len(description)
+class InlinePrinter(Printer):
 
-        return width
-
-    def printInline(self):
+    def printCheatSheet(self):
         """
         Prints the cheatssheet inline, so that it's grep-able.
         """
 
-        width = self.getDescriptionWidth()
-
-        for description in self.configparser['cheats']:
-            value = self.configparser['cheats'][description]
-            output = "{0:<{1}} {2}".format(description, width, value)
+        for description in self._configparser['cheats']:
+            value = self._configparser['cheats'][description]
+            output = "{0:<{1}} {2}".format(description, self.getWidth(), value)
 
             print(output)
 
-    def printBreakline(self):
+class BreaklinePrinter(Printer)
+
+    def printCheatSheet(self):
         """
         Prints the cheatsheet with newlines
         """
 
-        for description in self.configparser['cheats']:
-            value = self.configparser['cheats'][description]
+        for description in self._configparser['cheats']:
+            value = self._configparser['cheats'][description]
             output = "{0} \n {1}".format(description, value)
 
             print(output)
 
-    def printCheatSheet(self, breakline):
-        """
-        Prints the already parsed cheatsheet either inline or with newlines
-        """
-
-        if breakline:
-            self.printBreakline()
-        else:
-            self.printInline()
-
 class CheatHandler:
 
     def __init__(self, extention, directory):
-        self.configParser = configparser.ConfigParser()
+
+        self.__configParser = configparser.ConfigParser()
         self.__available_cheatsheets = {}
         self.__config_directory = directory
         self.__file_extension = extention
 
     def getConfigParser(self):
-        return self.configParser
+
+        return self.__configParser
 
     def printCheatsheetNotAvailable(self, cheatsheet):
-        """
-        Print error if cheatsheet isn't there
-        """
+
         print(cheatsheet +' - Cheatsheet not available')
 
     def indexCheatsheets(self):
@@ -83,7 +76,6 @@ class CheatHandler:
 
         for filename in listdir(self.__config_directory):
             try:
-                #If the file exsists, put it into the available cheathssheets
                 if filename.endswith(self.__file_extension):
                     path_to_file = self.__config_directory + filename
                     tempParser.read(path_to_file)
@@ -100,7 +92,7 @@ class CheatHandler:
 
         if requested_cheatsheet in self.__available_cheatsheets.keys():
             path_to_file = self.__config_directory + self.__available_cheatsheets[requested_cheatsheet]
-            self.configParser.read(path_to_file)
+            self.__configParser.read(path_to_file)
 
         else:
             self.printCheatsheetNotAvailable(requested_cheatsheet)
@@ -118,17 +110,17 @@ def main():
     argumentParser = argparse.ArgumentParser(description=description)
     argumentParser.add_argument("cheatsheet", help=help_general)
     group = argumentParser.add_mutually_exclusive_group()
-    group.add_argument("-l", "--inline", action="store_true", help=help_inline)
-    group.add_argument("-b", "--breakline", action="store_true", help=help_breakline)
+    group.add_argument("-l", "--inline", action="store_const", help=help_inline)
+    group.add_argument("-b", "--breakline", action="store_const", help=help_breakline)
     cmdArguments = argumentParser.parse_args()
 
-    #Initialize CheatParser
+    #Initialize CheatHanlder
     chandler = CheatHandler(extention, directory)
     chandler.indexCheatsheets()
     chandler.parseRequestedCheatSheet(cmdArguments.cheatsheet)
 
-    cprinter = CheatPrinter(chandler.getConfigParser())
-    cprinter.printCheatSheet(cmdArguments.breakline)
+    #printer = either Break or Inline printer
+    #printer.printCheatSheet()
 
     #Everything is fine and we can exit with 0
     exit(0)
