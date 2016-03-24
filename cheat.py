@@ -5,6 +5,7 @@ from sys import path
 from sys import exit
 from os import listdir
 
+#Lot or reduntant code here... gotta clean that up
 class Printer:
 
     def __init__(self, configparser):
@@ -53,46 +54,6 @@ class BreaklinePrinter(Printer):
 
             print(output)
 
-class CheatHandler:
-    """
-    Indexes the available INI files within the config folder and parses the requested file
-    """
-
-    def __init__(self, extention, directory):
-        self.__configParser = configparser.ConfigParser()
-        self.__available_cheatsheets = {}
-        self.__config_directory = directory
-        self.__file_extension = extention
-
-    def getConfigParser(self):
-        return self.__configParser
-
-    def printCheatsheetNotAvailable(self, cheatsheet):
-        print(cheatsheet +' - Cheatsheet not available')
-
-    def indexCheatsheets(self):
-        tempParser = configparser.ConfigParser()
-
-        for filename in listdir(self.__config_directory):
-            try:
-                if filename.endswith(self.__file_extension):
-                    path_to_file = self.__config_directory + filename
-                    tempParser.read(path_to_file)
-
-                    self.__available_cheatsheets[tempParser['main']['name']] = filename
-
-            except configparser.Error as exception:
-                print(exception)
-
-    def parseRequestedCheatSheet(self, requested_cheatsheet):
-        if requested_cheatsheet in self.__available_cheatsheets.keys():
-            path_to_file = self.__config_directory + self.__available_cheatsheets[requested_cheatsheet]
-            self.__configParser.read(path_to_file)
-
-        else:
-            self.printCheatsheetNotAvailable(requested_cheatsheet)
-            exit(1)
-
 def main():
     directory = path[0] + "/config/"
     extention = ".ini"
@@ -107,24 +68,27 @@ def main():
     group = argumentParser.add_mutually_exclusive_group()
     group.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
     group.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
-    cmdArguments = argumentParser.parse_args()
+    cmd_arguments = argumentParser.parse_args()
 
-    #instantiate CheatHandler
-    chandler = CheatHandler(extention, directory)
-    chandler.indexCheatsheets()
-    chandler.parseRequestedCheatSheet(cmdArguments.cheatsheet)
+    parser = configparser.ConfigParser()
+    filename = directory + cmd_arguments.cheatsheet + extention
+
+    try:
+        parser.read(filename)
+    except configparser.Error as exception:
+        print(exception)
 
     #instantiate CheatPrinter based on command-line argument.
-    printer_type = cmdArguments.printer
+    printer_type = cmd_arguments.printer
 
     if printer_type is None:
         printer_type = 'InlinePrinter'
 
+    #Clener way of doing this?
     printer_constructor = globals()[printer_type]
-    cprinter = printer_constructor(chandler.getConfigParser())
+    cprinter = printer_constructor(parser)
     cprinter.printCheatSheet()
 
-    #Everything is fine and we can exit with 0
     exit(0)
 
 if __name__ == "__main__":
