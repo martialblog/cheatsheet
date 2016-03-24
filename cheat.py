@@ -6,6 +6,7 @@ from sys import exit
 from os import listdir
 
 #Lot or reduntant code here... gotta clean that up
+#Make more stable when file
 class Printer:
 
     def __init__(self, configparser):
@@ -61,8 +62,9 @@ def main():
     help_general = "The cheatsheet you want to see"
     help_inline = "One cheat per line, this is default"
     help_breakline = "Break lines"
+    parser = configparser.ConfigParser()
 
-    #Define the command-line arguments.
+    #COMMAND-LINE ARGUMENTS!
     argumentParser = argparse.ArgumentParser(description=description)
     argumentParser.add_argument("cheatsheet", help=help_general)
     group = argumentParser.add_mutually_exclusive_group()
@@ -70,24 +72,19 @@ def main():
     group.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
     cmd_arguments = argumentParser.parse_args()
 
-    parser = configparser.ConfigParser()
+    if cmd_arguments.printer is None:
+        CheatPrinterConstructor = globals()['InlinePrinter']
+    else:
+        CheatPrinterConstructor = globals()[cmd_arguments.printer]
+
     filename = directory + cmd_arguments.cheatsheet + extention
 
     try:
         parser.read(filename)
+        cheatPrinter = CheatPrinterConstructor(parser)
+        cheatPrinter.printCheatSheet()
     except configparser.Error as exception:
         print(exception)
-
-    #instantiate CheatPrinter based on command-line argument.
-    printer_type = cmd_arguments.printer
-
-    if printer_type is None:
-        printer_type = 'InlinePrinter'
-
-    #Clener way of doing this?
-    printer_constructor = globals()[printer_type]
-    cprinter = printer_constructor(parser)
-    cprinter.printCheatSheet()
 
     exit(0)
 
