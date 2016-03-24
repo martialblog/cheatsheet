@@ -10,7 +10,7 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 - Grep-able!
 
 ##Requirements
-Nothing but good old Python 3.
+Nothing but good old Python 3. It's not rocketscience.
 
 ##Installation
 To use, clone this repository to ```~/cheat.d```. Like so:
@@ -29,9 +29,6 @@ And of you go!
 You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my-```
 
 ##TODO
-A lot of stuff... I just started. Stay tuned.
-
-- Make stuff more pythonic
-- Sort output?
+- Sort output maybe? I just grep stuff.
 - Add more cheatsheets! MORE!
 - Tell my mom about it
