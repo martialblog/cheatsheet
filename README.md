@@ -31,6 +31,7 @@ You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my
 ##TODO
 A lot of stuff... I just started. Stay tuned.
 
-- Sort output
+- Make stuff more pythonic
+- Sort output?
 - Add more cheatsheets! MORE!
 - Tell my mom about it
