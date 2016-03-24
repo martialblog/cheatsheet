@@ -15,7 +15,6 @@ import configparser
 import argparse
 from sys import path
 from sys import exit
-from os import listdir
 
 class Printer:
 
