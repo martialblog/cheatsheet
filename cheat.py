@@ -21,7 +21,7 @@ class InlinePrinter(Printer):
     @property
     def width(self):
         width = 10
-        
+
         for description in self.configparser['cheats']:
             if len(description) > width:
                 width = len(description)
