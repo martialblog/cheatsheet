@@ -59,6 +59,7 @@ class BreaklinePrinter(Printer):
             print(output)
 
 def main():
+    #GENERAL SETTINGS
     directory = path[0] + "/config/"
     extention = ".ini"
     description = "Cool Command-line Cheatsheets"
@@ -75,6 +76,7 @@ def main():
     group.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
     cmd_arguments = argumentParser.parse_args()
 
+    #WHERE THE RUBBER MEETS THE ROAD!
     if cmd_arguments.printer is None:
         CheatPrinterConstructor = globals()['InlinePrinter']
     else:
@@ -89,7 +91,8 @@ def main():
     except configparser.Error as exception:
         print(exception)
     except:
-        print(filename + " not available or contains errors")
+        #I know the Printer class should handle this... but I was lazy. Sorry.
+        print(filename + " not available or contains errors.")
 
     exit(0)
 
