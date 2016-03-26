@@ -72,16 +72,13 @@ def main():
     argumentParser = argparse.ArgumentParser(description=description)
     argumentParser.add_argument('cheatsheet', help=help_general)
     group = argumentParser.add_mutually_exclusive_group()
+    group.set_defaults(printer='InlinePrinter')
     group.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
     group.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
     cmd_arguments = argumentParser.parse_args()
 
     #WHERE THE RUBBER MEETS THE ROAD!
-    if cmd_arguments.printer is None:
-        CheatPrinterConstructor = globals()['InlinePrinter']
-    else:
-        CheatPrinterConstructor = globals()[cmd_arguments.printer]
-
+    CheatPrinterConstructor = globals()[cmd_arguments.printer]
     filename = directory + cmd_arguments.cheatsheet + extention
 
     try:
