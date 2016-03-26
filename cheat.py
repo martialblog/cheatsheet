@@ -11,17 +11,18 @@ And then create a new Printer Subclass based on the name you just added. It shou
     class MyNewPrinter(Printer)
 """
 
-import configparser
-import argparse
+from configparser import ConfigParser
+from argparse import ArgumentParser
 from sys import path
 from sys import exit
 
+#TODO: Maybe get rid of the duplicate for loops somehow.
 class Printer:
 
     def __init__(self, configparser):
         self.configparser = configparser
 
-    def printCheatSheet(self):
+    def printsheet(self):
         raise NotImplementedError
 
 class InlinePrinter(Printer):
@@ -39,7 +40,7 @@ class InlinePrinter(Printer):
 
         return width
 
-    def printCheatSheet(self):
+    def printsheet(self):
         for description in self.configparser['cheats']:
             value = self.configparser['cheats'][description]
             output = "{0:<{1}} {2}".format(description, self.width, value)
@@ -51,7 +52,7 @@ class BreaklinePrinter(Printer):
     Prints the cheatsheet with newlines
     """
 
-    def printCheatSheet(self):
+    def printsheet(self):
         for description in self.configparser['cheats']:
             value = self.configparser['cheats'][description]
             output = "{0} \n {1}".format(description, value)
@@ -59,39 +60,40 @@ class BreaklinePrinter(Printer):
             print(output)
 
 def main():
-    #GENERAL SETTINGS
-    directory = path[0] + "/config/"
-    extention = ".ini"
-    description = "Cool Command-line Cheatsheets"
-    help_general = "The cheatsheet you want to see"
-    help_inline = "One cheat per line, this is default"
+    #GENERAL SETTINGS!
+    directory      = path[0] + "/config/"
+    extention      = ".ini"
+    description    = "Cool Command-line Cheatsheets"
+    help_general   = "The cheatsheet you want to see"
+    help_inline    = "One cheat per line, this is default"
     help_breakline = "Break lines"
-    parser = configparser.ConfigParser()
 
     #COMMAND-LINE ARGUMENTS!
-    argumentParser = argparse.ArgumentParser(description=description)
-    argumentParser.add_argument('cheatsheet', help=help_general)
-    group = argumentParser.add_mutually_exclusive_group()
-    group.set_defaults(printer='InlinePrinter')
-    group.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
-    group.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
-    cmd_arguments = argumentParser.parse_args()
+    argumentparser = ArgumentParser(description=description)
+    printertype = argumentparser.add_mutually_exclusive_group()
+
+    argumentparser.add_argument('cheatsheet', help=help_general)
+    printertype.set_defaults(printer='InlinePrinter')
+    printertype.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
+    printertype.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
 
     #WHERE THE RUBBER MEETS THE ROAD!
-    CheatPrinterConstructor = globals()[cmd_arguments.printer]
+    cmd_arguments = argumentparser.parse_args()
     filename = directory + cmd_arguments.cheatsheet + extention
+    CheatPrinterConstructor = globals()[cmd_arguments.printer]
+    configparser = ConfigParser()
+    cheatprinter = CheatPrinterConstructor(configparser)
 
     try:
-        parser.read(filename)
-        cheatPrinter = CheatPrinterConstructor(parser)
-        cheatPrinter.printCheatSheet()
-    except configparser.Error as exception:
-        print(exception)
+        configparser.read(filename)
+        cheatprinter.printsheet()
+        exitcode = 0
     except:
-        #I know the Printer class should handle this... but I was lazy. Sorry.
+        #I know lazy handling, but it works perfect... Sorry.
         print(filename + " not available or contains errors.")
-
-    exit(0)
+        exitcode = 1
+    finally:
+        exit(exitcode)
 
 if __name__ == "__main__":
     main()
