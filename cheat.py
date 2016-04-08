@@ -16,7 +16,8 @@ from argparse import ArgumentParser
 from sys import path
 from sys import exit
 
-#TODO: Maybe get rid of the duplicate for loops somehow.
+
+# TODO: Maybe get rid of the duplicate for loops somehow.
 class Printer:
 
     def __init__(self, configparser):
@@ -24,6 +25,7 @@ class Printer:
 
     def printsheet(self):
         raise NotImplementedError
+
 
 class InlinePrinter(Printer):
     """
@@ -47,6 +49,7 @@ class InlinePrinter(Printer):
 
             print(output)
 
+
 class BreaklinePrinter(Printer):
     """
     Prints the cheatsheet with newlines
@@ -59,16 +62,17 @@ class BreaklinePrinter(Printer):
 
             print(output)
 
+
 def main():
-    #GENERAL SETTINGS!
-    directory      = path[0] + "/config/"
-    extention      = ".ini"
-    description    = "Cool Command-line Cheatsheets"
-    help_general   = "The cheatsheet you want to see"
-    help_inline    = "One cheat per line, this is default"
+    # ENERAL SETTINGS!
+    directory = path[0] + "/config/"
+    extention = ".ini"
+    description = "Cool Command-line Cheatsheets"
+    help_general = "The cheatsheet you want to see"
+    help_inline = "One cheat per line, this is default"
     help_breakline = "Break lines"
 
-    #COMMAND-LINE ARGUMENTS!
+    # COMMAND-LINE ARGUMENTS!
     argumentparser = ArgumentParser(description=description)
     printertype = argumentparser.add_mutually_exclusive_group()
 
@@ -77,7 +81,7 @@ def main():
     printertype.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
     printertype.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
 
-    #WHERE THE RUBBER MEETS THE ROAD!
+    # WHERE THE RUBBER MEETS THE ROAD!
     cmd_arguments = argumentparser.parse_args()
     filename = directory + cmd_arguments.cheatsheet + extention
     CheatPrinterConstructor = globals()[cmd_arguments.printer]
@@ -89,7 +93,7 @@ def main():
         cheatprinter.printsheet()
         exitcode = 0
     except:
-        #I know lazy handling, but it works perfect... Sorry.
+        # I know lazy handling, but it works perfect... Sorry.
         print(filename + " not available or contains errors.")
         exitcode = 1
     finally:
