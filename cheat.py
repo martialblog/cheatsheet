@@ -5,10 +5,12 @@ Ok this whole thing is pretty straight forward I guess.
 To add a new output format:
 
 Add the new command-line option to the printer group, like so:
-    group.add_argument('-x', help=help_MyNewPrinter, action='store_const', dest='printer', const='MyNewPrinter')
+    help_MyNewPrinter = "The most awesome printer to exist in the observable universe"
+    printertype.add_argument('-x', help=help_MyNewPrinter, action='store_const', dest='printer', const='MyNewPrinter')
 
 And then create a new Printer Subclass based on the name you just added. It should the implement the printCheatSheet method:
-    class MyNewPrinter(Printer)
+    class MyNewPrinter(Printer):
+        [...]
 """
 
 from configparser import ConfigParser
