@@ -17,14 +17,16 @@ from sys import path
 from sys import exit
 
 
-# TODO: Maybe get rid of the duplicate for loops somehow.
 class Printer:
 
     def __init__(self, configparser):
         self.configparser = configparser
 
-    def printsheet(self):
-        raise NotImplementedError
+    def printsheet(self, template):
+        for description in self.configparser['cheats']:
+            value = self.configparser['cheats'][description]
+            output = template.format(description, value)
+            print(output)
 
 
 class InlinePrinter(Printer):
@@ -40,14 +42,11 @@ class InlinePrinter(Printer):
             if len(description) > width:
                 width = len(description)
 
-        return width
+        return str(width)
 
     def printsheet(self):
-        for description in self.configparser['cheats']:
-            value = self.configparser['cheats'][description]
-            output = "{0:<{1}} {2}".format(description, self.width, value)
-
-            print(output)
+        print_format = "{0:<" + self.width + "} {1}"
+        super().printsheet(print_format)
 
 
 class BreaklinePrinter(Printer):
@@ -56,11 +55,8 @@ class BreaklinePrinter(Printer):
     """
 
     def printsheet(self):
-        for description in self.configparser['cheats']:
-            value = self.configparser['cheats'][description]
-            output = "{0} \n {1}".format(description, value)
-
-            print(output)
+        print_fomat = "{0} \n {1}"
+        super().printsheet(print_fomat)
 
 
 def main():
