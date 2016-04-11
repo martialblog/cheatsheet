@@ -62,7 +62,7 @@ class BreaklinePrinter(Printer):
 
 
 def main():
-    # ENERAL SETTINGS!
+    # GENERAL SETTINGS!
     directory = path[0] + "/config/"
     extention = ".ini"
     description = "Cool Command-line Cheatsheets"
@@ -90,7 +90,7 @@ def main():
         configparser.read(filename)
         cheatprinter.printsheet()
         exitcode = 0
-    except:
+    except Exception as e:
         # I know lazy handling, but it works perfect... Sorry.
         print(filename + " not available or contains errors.")
         exitcode = 1
