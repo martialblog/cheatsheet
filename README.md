@@ -10,16 +10,20 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 - Grep-able!
 
 ##Requirements
-Nothing but good old Python 3. It's not rocketscience.
+Nothing but good old Python. It's not rocketscience.
 
 ##Installation
 To use, clone this repository to ```~/cheat.d```. Like so:
 
 ```git clone https://github.com/martialblog/cheatsheet.git ~/.cheat.d```
 
-For usability you can set an alias.
+For usability you can set an alias:
 
 ```alias cheat="python3 ~/.cheat.d/cheat.py"```
+
+For Python 2:
+
+```alias cheat="python2 ~/.cheat.d/cheat.py2"```
 
 And of you go!
 
@@ -30,6 +34,5 @@ You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my
 
 ##TODO
 - Sort output maybe? I just grep stuff.
-- Maybe Python2.6 support.
 - Add more cheatsheets! MORE!
 - Tell my mom about it.
