@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 """
 Ok this whole thing is pretty straight forward I guess.
 
