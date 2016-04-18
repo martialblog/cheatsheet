@@ -46,7 +46,7 @@ class InlinePrinter(Printer):
         return str(width)
 
     def printsheet(self):
-        print_format = "{0:<" + self.width + "} {1}"
+        print_format = "{0:<" + self.width + "}: {1}"
         super(InlinePrinter, self).printsheet(print_format)
 
 
@@ -56,7 +56,7 @@ class BreaklinePrinter(Printer):
     """
 
     def printsheet(self):
-        print_fomat = "{0} \n {1}"
+        print_format = "{0} \n {1}"
         super(BreaklinePrinter, self).printsheet(print_format)
 
 
