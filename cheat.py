@@ -57,8 +57,8 @@ class BreaklinePrinter(Printer):
     """
 
     def printsheet(self):
-        print_fomat = "{0} \n {1}"
-        super().printsheet(print_fomat)
+        print_format = "{0} \n {1}"
+        super().printsheet(print_format)
 
 
 def main():
