@@ -34,5 +34,6 @@ You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my
 
 ##TODO
 - Sort output maybe? I just grep stuff.
+- Fix Python2 InlinePrinter
 - Add more cheatsheets! MORE!
 - Tell my mom about it.
