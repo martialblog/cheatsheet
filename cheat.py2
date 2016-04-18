@@ -35,19 +35,18 @@ class InlinePrinter(Printer):
     Prints the cheatssheet inline, so that it's grep-able.
     """
 
-    # TODO Does not run the loop in Python2. Fix!
     @property
     def width(self):
-        width = 40
+        width = 0
 
-        for description in self.configparser.items('cheats'):
-            if len(description) > width:
-                width = len(description)
+        for desc, value in self.configparser.items('cheats'):
+            if len(desc) > width:
+                width = len(desc)
 
         return str(width)
 
     def printsheet(self):
-        print_format = "{0:" + self.width + "}: {1}"
+        print_format = "{0:" + self.width + "} {1}"
         super(InlinePrinter, self).printsheet(print_format)
 
 
