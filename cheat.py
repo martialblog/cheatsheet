@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
+
 """
+General Description:
+
 Ok this whole thing is pretty straight forward I guess.
 
 To add a new output format:
@@ -20,10 +23,17 @@ from sys import exit
 
 
 class Printer:
+    """
+    Base class for the cheatsheet printers. Takes care of the actuall printing.
+
+    Args:
+    Takes a configparser objects to print.
+    """
 
     def __init__(self, configparser):
         self.configparser = configparser
 
+    # TODO: Try-Except
     def printsheet(self, template):
         for description in self.configparser['cheats']:
             value = self.configparser['cheats'][description]
@@ -33,7 +43,7 @@ class Printer:
 
 class InlinePrinter(Printer):
     """
-    Prints the cheatssheet inline, so that it's grep-able.
+    Prints the cheatssheet line-by-line, so that it's grep-able.
     """
 
     @property
@@ -53,7 +63,7 @@ class InlinePrinter(Printer):
 
 class BreaklinePrinter(Printer):
     """
-    Prints the cheatsheet with newlines
+    Prints the cheatsheet and breaks the line after the description.
     """
 
     def printsheet(self):
