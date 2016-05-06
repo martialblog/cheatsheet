@@ -16,11 +16,11 @@ And then create a new Printer Subclass based on the name you just added. It shou
         [...]
 """
 
+import os
 from configparser import ConfigParser
 from argparse import ArgumentParser
 from sys import path
 from sys import exit
-
 
 class Printer:
     """
@@ -69,7 +69,7 @@ class BreaklinePrinter(Printer):
 
 def main():
     # GENERAL SETTINGS!
-    directory = path[0] + "/config/"
+    directory = os.path.join(os.getcwd(), "config/")
     extention = ".ini"
     description = "Cool Command-line Cheatsheets"
     help_general = "The cheatsheet you want to see"
