@@ -64,6 +64,7 @@ class BreaklinePrinter(Printer):
     Prints the cheatsheet and breaks the line after the description.
     """
 
+    # TODO Maybe use ljust rjust
     def printsheet(self):
         print_format = "{0} \n {1}"
         super().printsheet(print_format)
@@ -114,7 +115,6 @@ def main():
     except Exception as e:
         # I know lazy handling, but it works perfect... Sorry.
         print(filename + " not available or contains errors.")
-        print(e)
         exitcode = 1
     finally:
         exit(exitcode)
