@@ -11,7 +11,9 @@ Add the new command-line option to the printer group, like so:
     help_MyNewPrinter = "The most awesome printer to exist in the observable universe"
     printertype.add_argument('-x', help=help_MyNewPrinter, action='store_const', dest='printer', const='MyNewPrinter')
 
-And then create a new Printer Subclass based on the name you just added. It should the implement the printCheatSheet method:
+Add the new Printer type to the PrinterFactory.
+
+Then create a new Printer Subclass based on the name you just added. It should the implement the printCheatSheet method:
     class MyNewPrinter(Printer):
         [...]
 """
@@ -67,6 +69,19 @@ class BreaklinePrinter(Printer):
         super().printsheet(print_format)
 
 
+def PrinterFactory(name):
+    """
+    Creates a Printer object from the name given.
+    """
+
+    printer_classes = {
+        "InlinePrinter": InlinePrinter,
+        "BreaklinePrinter": BreaklinePrinter
+    }
+
+    return printer_classes[name]
+
+
 def main():
     # GENERAL SETTINGS!
     directory = os.path.join(os.getcwd(), "config/")
@@ -88,7 +103,7 @@ def main():
     # WHERE THE RUBBER MEETS THE ROAD!
     cmd_arguments = argumentparser.parse_args()
     filename = directory + cmd_arguments.cheatsheet + extention
-    CheatPrinterConstructor = globals()[cmd_arguments.printer]
+    CheatPrinterConstructor = PrinterFactory(cmd_arguments.printer)
     configparser = ConfigParser()
     cheatprinter = CheatPrinterConstructor(configparser)
 
