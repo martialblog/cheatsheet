@@ -48,11 +48,7 @@ class InlinePrinter(Printer):
 
     @property
     def width(self):
-        width = 10
-
-        for description in self.configparser['cheats']:
-            if len(description) > width:
-                width = len(description)
+        width = len(max(self.configparser['cheats'], key=len))
 
         return str(width)
 
@@ -103,6 +99,7 @@ def main():
     except Exception as e:
         # I know lazy handling, but it works perfect... Sorry.
         print(filename + " not available or contains errors.")
+        print(e)
         exitcode = 1
     finally:
         exit(exitcode)
