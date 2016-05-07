@@ -1,5 +1,7 @@
 #!/usr/bin/env python2
 """
+Notice: This is the Python 2 codebase, which I don't really work on much.
+
 Ok this whole thing is pretty straight forward I guess.
 
 To add a new output format:
