@@ -3,17 +3,14 @@
 # TODO Test PrinterFactory object creation
 
 
-import sys
-sys.path.append('../cheat/')
-
 from configparser import ConfigParser
 from io import StringIO
+import os
 
 import unittest
 from unittest.mock import patch
 
-# Printer Classes that will be tested
-from printer import *
+from cheat.printer import *
 
 
 class PrinterTest(unittest.TestCase):
@@ -25,7 +22,9 @@ class PrinterTest(unittest.TestCase):
         """
 
         self.cp = ConfigParser()
-        self.cp.read("test.ini")
+        directory = os.path.dirname(os.path.realpath(__file__))
+        testfile = os.path.join(directory, "test.ini")
+        self.cp.read(testfile)
 
     def test_InlinePrinter(self):
         """
