@@ -69,8 +69,11 @@ class PrinterTest(unittest.TestCase):
         """
         Test to see if the calculated width is correct.
         """
+
         printer = InlinePrinter(self.cp)
-        self.assertEqual(printer.width, "12")
+
+        expected_length = str(len('Test Cheat A'))
+        self.assertEqual(printer.width, expected_length)
 
     def test_BreaklinePrinter(self):
         """
