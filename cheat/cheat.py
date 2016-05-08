@@ -10,7 +10,8 @@ from sys import exit
 
 def main():
     # GENERAL SETTINGS!
-    directory = os.path.join(os.getcwd(), "sheets/")
+    file_dir = os.path.dirname(os.path.realpath(__file__))
+    directory = os.path.join(file_dir, "sheets/")
     extention = ".ini"
     description = "Cool Command-line Cheatsheets"
     help_general = "The cheatsheet you want to see"
