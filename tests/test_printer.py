@@ -8,8 +8,8 @@ import os
 import unittest
 from unittest.mock import patch
 
-from cheat.printer import *
-
+#from cheat.printer import *
+import cheat.printer as cp
 
 class PrinterTest(unittest.TestCase):
     """Some basic tests to check the Printer classes"""
@@ -30,8 +30,8 @@ class PrinterTest(unittest.TestCase):
         """
 
         self.assertIs(
-            PrinterFactory.create_printer("InlinePrinter"),
-            InlinePrinter
+            cp.PrinterFactory.create_printer("InlinePrinter"),
+            cp.InlinePrinter
         )
 
     def test_PrinterFactory_BreaklinePrinter(self):
@@ -40,8 +40,8 @@ class PrinterTest(unittest.TestCase):
         """
 
         self.assertIs(
-            PrinterFactory.create_printer("BreaklinePrinter"),
-            BreaklinePrinter
+            cp.PrinterFactory.create_printer("BreaklinePrinter"),
+            cp.BreaklinePrinter
         )
 
     def test_PrinterFactory_NonsensePrinter(self):
@@ -50,7 +50,7 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Using lambda turns our dictionary lookup into a callable.
-        self.assertRaises(KeyError, lambda: PrinterFactory.create_printer("NonsensePrinter"))
+        self.assertRaises(KeyError, lambda: cp.PrinterFactory.create_printer("NonsensePrinter"))
 
     def test_InlinePrinter(self):
         """
@@ -59,7 +59,7 @@ class PrinterTest(unittest.TestCase):
 
         #TODO Make this more readable
         expected_output = "test cheat a lorem\ntest cheat b ipsum\ntest cheat c dolor\n"
-        printer = InlinePrinter(self.cp)
+        printer = cp.InlinePrinter(self.cp)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -70,7 +70,7 @@ class PrinterTest(unittest.TestCase):
         Test to see if the calculated width is correct.
         """
 
-        printer = InlinePrinter(self.cp)
+        printer = cp.InlinePrinter(self.cp)
 
         expected_length = str(len('Test Cheat A'))
         self.assertEqual(printer.width, expected_length)
@@ -82,7 +82,7 @@ class PrinterTest(unittest.TestCase):
 
         #TODO Make this more readable
         expected_output = "test cheat a \n lorem\ntest cheat b \n ipsum\ntest cheat c \n dolor\n"
-        printer = BreaklinePrinter(self.cp)
+        printer = cp.BreaklinePrinter(self.cp)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -96,7 +96,7 @@ class PrinterTest(unittest.TestCase):
 
         #TODO Make this more readable
         expected_output = "test cheat a\ntest cheat b\ntest cheat c\n"
-        printer = Printer(self.cp)
+        printer = cp.Printer(self.cp)
         template = "{0}"
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
