@@ -19,9 +19,9 @@ class PrinterTest(unittest.TestCase):
         Setting up the test by reading the test cheatsheet with expected content to test against.
         """
 
-        self.cp = ConfigParser()
         directory = os.path.dirname(os.path.realpath(__file__))
         testfile = os.path.join(directory, "test.ini")
+        self.cp = ConfigParser()
         self.cp.read(testfile)
 
     def test_PrinterFactory_InlinePrinter(self):
