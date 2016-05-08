@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# TODO Test if the width calculation is alright
+# TODO Test PrinterFactory object creation
 
 
 import sys
@@ -25,7 +27,6 @@ class PrinterTest(unittest.TestCase):
         self.cp = ConfigParser()
         self.cp.read("test.ini")
 
-    #TODO Test if the width calculation is alright
     def test_InlinePrinter(self):
         """
         Testing if the InlinePrinter does its job.
