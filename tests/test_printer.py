@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# TODO Test if the width calculation is alright
-# TODO Test PrinterFactory object creation
 
 
 from configparser import ConfigParser
@@ -26,6 +24,34 @@ class PrinterTest(unittest.TestCase):
         testfile = os.path.join(directory, "test.ini")
         self.cp.read(testfile)
 
+    def test_PrinterFactory_InlinePrinter(self):
+        """
+        See if the PrinterFactory is giving us the objects we want.
+        """
+
+        self.assertIs(
+            PrinterFactory.create_printer("InlinePrinter"),
+            InlinePrinter
+        )
+
+    def test_PrinterFactory_BreaklinePrinter(self):
+        """
+        See if the PrinterFactory is giving us the objects we want.
+        """
+
+        self.assertIs(
+            PrinterFactory.create_printer("BreaklinePrinter"),
+            BreaklinePrinter
+        )
+
+    def test_PrinterFactory_NonsensePrinter(self):
+        """
+        See if PrinterFactory
+        """
+
+        # Using lambda turns our dictionary lookup into a callable.
+        self.assertRaises(KeyError, lambda: PrinterFactory.create_printer("NonsensePrinter"))
+
     def test_InlinePrinter(self):
         """
         Testing if the InlinePrinter does its job.
@@ -38,6 +64,13 @@ class PrinterTest(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
             self.assertEqual(fake_out.getvalue(), expected_output)
+
+    def test_InlinePrinter_width(self):
+        """
+        Test to see if the calculated width is correct.
+        """
+        printer = InlinePrinter(self.cp)
+        self.assertEqual(printer.width, "12")
 
     def test_BreaklinePrinter(self):
         """
