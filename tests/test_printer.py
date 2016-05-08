@@ -21,8 +21,8 @@ class PrinterTest(unittest.TestCase):
 
         directory = os.path.dirname(os.path.realpath(__file__))
         testfile = os.path.join(directory, "test.ini")
-        self.cp = ConfigParser()
-        self.cp.read(testfile)
+        self.cparser = ConfigParser()
+        self.cparser.read(testfile)
 
     def test_PrinterFactory_InlinePrinter(self):
         """
@@ -59,7 +59,7 @@ class PrinterTest(unittest.TestCase):
 
         #TODO Make this more readable
         expected_output = "test cheat a lorem\ntest cheat b ipsum\ntest cheat c dolor\n"
-        printer = cp.InlinePrinter(self.cp)
+        printer = cp.InlinePrinter(self.cparser)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -70,7 +70,7 @@ class PrinterTest(unittest.TestCase):
         Test to see if the calculated width is correct.
         """
 
-        printer = cp.InlinePrinter(self.cp)
+        printer = cp.InlinePrinter(self.cparser)
 
         expected_length = str(len('Test Cheat A'))
         self.assertEqual(printer.width, expected_length)
@@ -82,7 +82,7 @@ class PrinterTest(unittest.TestCase):
 
         #TODO Make this more readable
         expected_output = "test cheat a \n lorem\ntest cheat b \n ipsum\ntest cheat c \n dolor\n"
-        printer = cp.BreaklinePrinter(self.cp)
+        printer = cp.BreaklinePrinter(self.cparser)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -96,7 +96,7 @@ class PrinterTest(unittest.TestCase):
 
         #TODO Make this more readable
         expected_output = "test cheat a\ntest cheat b\ntest cheat c\n"
-        printer = cp.Printer(self.cp)
+        printer = cp.Printer(self.cparser)
         template = "{0}"
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
