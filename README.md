@@ -19,11 +19,11 @@ To use, clone this repository to ```~/cheat.d```. Like so:
 
 For usability you can set an alias:
 
-```alias cheat="python3 ~/.cheat.d/cheats/cheat.py"```
+```alias cheat="python3 ~/.cheat.d/cheat/cheat.py"```
 
 For Python 2:
 
-```alias cheat="python2 ~/.cheat.d/cheats/cheat.py2"```
+```alias cheat="python2 ~/.cheat.d/cheat/cheat.py2"```
 
 And of you go!
 
