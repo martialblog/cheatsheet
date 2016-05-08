@@ -64,7 +64,7 @@ class BreaklinePrinter(Printer):
 
 def main():
     # GENERAL SETTINGS!
-    directory = path[0] + "/config/"
+    directory = path[0] + "/sheets/"
     extention = ".ini"
     description = "Cool Command-line Cheatsheets"
     help_general = "The cheatsheet you want to see"
