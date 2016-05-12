@@ -57,9 +57,11 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        expected_output = "test cheat a lorem\n"
-        expected_output = expected_output + "test cheat b ipsum\n"
-        expected_output = expected_output + "test cheat c dolor\n"
+        lines = ["test cheat a lorem\n",
+                 "test cheat b ipsum\n",
+                 "test cheat c dolor\n"]
+
+        expected_output = lines[0] + lines[1] + lines[2]
 
         printer = cp.InlinePrinter(self.cparser)
 
@@ -82,10 +84,12 @@ class PrinterTest(unittest.TestCase):
         Testing if the BreaklinePrinter does its job
         """
 
-        # Done this way for better readablility
-        expected_output = "test cheat a \n lorem\n"
-        expected_output = expected_output + "test cheat b \n ipsum\n"
-        expected_output = expected_output + "test cheat c \n dolor\n"
+        # Done this way for better readablility.
+        lines = ["test cheat a \n lorem\n",
+                 "test cheat b \n ipsum\n",
+                 "test cheat c \n dolor\n"]
+
+        expected_output = lines[0] + lines[1] + lines[2]
 
         printer = cp.BreaklinePrinter(self.cparser)
 
