@@ -7,7 +7,6 @@ import os
 import unittest
 from unittest.mock import patch
 
-#from cheat.printer import *
 import cheat.printer as cp
 
 
