@@ -4,12 +4,12 @@
 from configparser import ConfigParser
 from io import StringIO
 import os
-
 import unittest
 from unittest.mock import patch
 
 #from cheat.printer import *
 import cheat.printer as cp
+
 
 class PrinterTest(unittest.TestCase):
     """Some basic tests to check the Printer classes"""
@@ -57,8 +57,11 @@ class PrinterTest(unittest.TestCase):
         Testing if the InlinePrinter does its job.
         """
 
-        #TODO Make this more readable
-        expected_output = "test cheat a lorem\ntest cheat b ipsum\ntest cheat c dolor\n"
+        # Done this way for better readablility.
+        expected_output = "test cheat a lorem\n"
+        expected_output = expected_output + "test cheat b ipsum\n"
+        expected_output = expected_output + "test cheat c dolor\n"
+
         printer = cp.InlinePrinter(self.cparser)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
@@ -80,14 +83,16 @@ class PrinterTest(unittest.TestCase):
         Testing if the BreaklinePrinter does its job
         """
 
-        #TODO Make this more readable
-        expected_output = "test cheat a \n lorem\ntest cheat b \n ipsum\ntest cheat c \n dolor\n"
+        # Done this way for better readablility
+        expected_output = "test cheat a \n lorem\n"
+        expected_output = expected_output + "test cheat b \n ipsum\n"
+        expected_output = expected_output + "test cheat c \n dolor\n"
+
         printer = cp.BreaklinePrinter(self.cparser)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
             self.assertEqual(fake_out.getvalue(), expected_output)
-
 
     def test_Printer_printsheet(self):
         """
