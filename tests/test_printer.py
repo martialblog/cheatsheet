@@ -11,7 +11,9 @@ import cheat.printer as cp
 
 
 class PrinterTest(unittest.TestCase):
-    """Some basic tests to check the Printer classes"""
+    """
+    Some basic tests to check the Printer classes
+    """
 
     def setUp(self):
         """
@@ -108,23 +110,10 @@ class PrinterTest(unittest.TestCase):
                  "test cheat c\n"]
 
         expected_output = lines[0] + lines[1] + lines[2]
+
         printer = cp.Printer(self.cparser)
         template = "{0}"
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet(template)
             self.assertEqual(fake_out.getvalue(), expected_output)
-
-    def test_main(self):
-        """
-        Lazy testing of the main function. Checks if the exitcode is zero.
-        """
-
-        command = '/usr/bin/env python3 cheat/cheat.py git > /dev/null 2>&1'
-        result = os.system(command)
-
-        self.assertEqual(result, 0)
-
-
-if __name__ == '__main__':
-    unittest.main()
