@@ -9,7 +9,6 @@ class MainTest(unittest.TestCase):
     """
     Tests for the main script
     TODO: I'm sure there must be a better way.
-
     """
 
     def setUp(self):

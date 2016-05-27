@@ -12,12 +12,13 @@ import cheat.printer as cp
 
 class PrinterTest(unittest.TestCase):
     """
-    Some basic tests to check the Printer classes
+    Some basic tests to check the Printer classes.
     """
 
     def setUp(self):
         """
-        Setting up the test by reading the test cheatsheet with expected content to test against.
+        Setting up the test by reading the test-cheatsheet
+        with expected content to test against.
         """
 
         directory = os.path.dirname(os.path.realpath(__file__))
@@ -47,7 +48,8 @@ class PrinterTest(unittest.TestCase):
 
     def test_PrinterFactory_NonsensePrinter(self):
         """
-        See if PrinterFactory
+        See if the PrinterFactory fails when it's supposed to.
+        I guess this isn't that useful...
         """
 
         # Using lambda turns our dictionary lookup into a callable.
@@ -83,7 +85,7 @@ class PrinterTest(unittest.TestCase):
 
     def test_BreaklinePrinter(self):
         """
-        Testing if the BreaklinePrinter does its job
+        Testing if the BreaklinePrinter does its job.
         """
 
         # Done this way for better readablility.
