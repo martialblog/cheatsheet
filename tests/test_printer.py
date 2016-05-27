@@ -102,8 +102,12 @@ class PrinterTest(unittest.TestCase):
         Testing if the printsheet for loop does its job.
         """
 
-        #TODO Make this more readable
-        expected_output = "test cheat a\ntest cheat b\ntest cheat c\n"
+        # Done this way for better readablility.
+        lines = ["test cheat a\n",
+                 "test cheat b\n",
+                 "test cheat c\n"]
+
+        expected_output = lines[0] + lines[1] + lines[2]
         printer = cp.Printer(self.cparser)
         template = "{0}"
 
