@@ -10,7 +10,9 @@ I'm trying to solve that problem by putting the cheatsheets where they belong. T
 - Grep-able!
 
 ##Requirements
-Nothing but good old Python. It's not rocketscience.
+Nothing but good old Python (3.x), it's not rocketscience.
+
+I also provided a Python 2.x version. However, main branch is 3.x.
 
 ##Installation
 To use, clone this repository to ```~/cheat.d```. Like so:
