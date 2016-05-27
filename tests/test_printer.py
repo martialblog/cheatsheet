@@ -99,7 +99,7 @@ class PrinterTest(unittest.TestCase):
 
     def test_Printer_printsheet(self):
         """
-        Testing if the printsheet for loop does its job
+        Testing if the printsheet for loop does its job.
         """
 
         #TODO Make this more readable
@@ -110,6 +110,16 @@ class PrinterTest(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet(template)
             self.assertEqual(fake_out.getvalue(), expected_output)
+
+    def test_main(self):
+        """
+        Lazy testing of the main function. Checks if the exitcode is zero.
+        """
+
+        command = '/usr/bin/env python3 cheat/cheat.py git > /dev/null 2>&1'
+        result = os.system(command)
+
+        self.assertEqual(result, 0)
 
 
 if __name__ == '__main__':
