@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/martialblog/cheatsheet.svg?branch=master)](https://travis-ci.org/martialblog/cheatsheet)
+
 #Commandline Cheatsheets
 Everybody likes cheatsheets. If you're like me and use lots of different tools but you can't remember all those cool shortcuts to impress your colleagues.
 
