@@ -2,6 +2,7 @@
 
 
 import os
+import utils as u
 from argparse import ArgumentParser
 from configparser import ConfigParser
 from printer import PrinterFactory
@@ -15,6 +16,7 @@ def main():
     extention = ".ini"
     description = "Cool Command-line Cheatsheets"
     help_general = "The cheatsheet you want to see"
+    help_list = "List all available Cheatsheets"
     help_inline = "One cheat per line, this is default"
     help_breakline = "Break lines"
 
@@ -22,13 +24,24 @@ def main():
     argumentparser = ArgumentParser(description=description)
     printertype = argumentparser.add_mutually_exclusive_group()
 
-    argumentparser.add_argument('cheatsheet', help=help_general)
+    argumentparser.add_argument('--list', dest='listcheats', action="store_true", required=False, help=help_list)
+    argumentparser.add_argument('cheatsheet', nargs='?', help=help_general)
+
     printertype.set_defaults(printer='InlinePrinter')
     printertype.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
     printertype.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
 
     # WHERE THE RUBBER MEETS THE ROAD!
     cmd_arguments = argumentparser.parse_args()
+
+    if cmd_arguments.cheatsheet is None:
+        argumentparser.print_help()
+        exit(2)
+
+    if cmd_arguments.listcheats:
+        u.print_available_sheets(directory)
+        exit(0)
+
     filename = directory + cmd_arguments.cheatsheet + extention
     CheatPrinterConstructor = PrinterFactory.create_printer(cmd_arguments.printer)
     configparser = ConfigParser()
