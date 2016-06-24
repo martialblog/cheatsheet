@@ -34,13 +34,13 @@ def main():
     # WHERE THE RUBBER MEETS THE ROAD!
     cmd_arguments = argumentparser.parse_args()
 
-    if cmd_arguments.cheatsheet is None:
-        argumentparser.print_help()
-        exit(2)
-
     if cmd_arguments.listcheats:
         u.print_available_sheets(directory)
         exit(0)
+
+    if cmd_arguments.cheatsheet is None:
+        argumentparser.print_help()
+        exit(2)
 
     filename = directory + cmd_arguments.cheatsheet + extention
     CheatPrinterConstructor = PrinterFactory.create_printer(cmd_arguments.printer)
