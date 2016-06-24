@@ -16,27 +16,36 @@ Nothing but good old Python (3.x), it's not rocketscience.
 
 I also provided a Python 2.x version. However, main branch is 3.x.
 
-##Installation
-To use, clone this repository to ```~/cheat.d```. Like so:
+##Setup
+Clone this repository to ```~/cheat.d```. Like so:
 
-```git clone https://github.com/martialblog/cheatsheet.git ~/.cheat.d```
+```bash
+git clone https://github.com/martialblog/cheatsheet.git ~/.cheat.d
+```
 
 For usability you can set an alias:
 
-```alias cheat="python3 ~/.cheat.d/cheat/cheat.py"```
+```bash
+alias cheat="python3 ~/.cheat.d/cheat/cheat.py"
+```
 
 For Python 2:
 
-```alias cheat="python2 ~/.cheat.d/cheat/cheat.py2"```
+```bash
+alias cheat="python2 ~/.cheat.d/cheat/cheat.py2"
+```
 
-And of you go!
+And away we go!
 
-```user@computer$ cheat git```
+```bash
+user@computer$ cheat git
+```
+
+To list all available cheatsheets:
+
+```bash
+user@computer$ cheat --list
+```
 
 ###Custom cheatsheets
-You can add custom cheatsheet that will be "gitgnored" by using the prexif ```my-```
-
-##TODO
-- Sort output maybe? I just grep stuff.
-- Add more cheatsheets! MORE!
-- Tell my mom about it.
+You can add custom cheatsheet that will be "gitgnored" by using the prexif **my-**
