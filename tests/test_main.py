@@ -53,7 +53,7 @@ class MainTest(unittest.TestCase):
         Checks the exitcode if there is no argument passed.
         """
 
-        command = '/usr/bin/python3 cheat/cheat.py 2> /dev/null'
+        command = '/usr/bin/python3 cheat/cheat.py > /dev/null 2>&1'
         result = os.system(command)
 
         self.assertEqual(result, self.exit_2)

@@ -15,7 +15,7 @@ def print_available_sheets(directory):
 
     for root, dirs, files in os.walk(directory):
         for name in files:
-            cp.read(os.path.join(root, name))
-            output = " {0}".format(cp['main']['name'])
-
-            print(output)
+            if name.endswith('ini'):
+                cp.read(os.path.join(root, name))
+                output = " {0}".format(cp['main']['name'])
+                print(output)
