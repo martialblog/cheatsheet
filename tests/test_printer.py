@@ -55,6 +55,25 @@ class PrinterTest(unittest.TestCase):
         # Using lambda turns our dictionary lookup into a callable.
         self.assertRaises(KeyError, lambda: cp.PrinterFactory.create_printer("NonsensePrinter"))
 
+    def test_InlinePrinter_colored(self):
+        """
+        Testing if the InlinePrinter does its job.
+        """
+
+        # Done this way for better readablility.
+        lines = ["test cheat a \x1b[94mlorem\x1b[1;m\n",
+                 "test cheat b \x1b[94mipsum\x1b[1;m\n",
+                 "test cheat c \x1b[94mdolor\x1b[1;m\n"]
+
+        expected_output = lines[0] + lines[1] + lines[2]
+
+        printer = cp.InlinePrinter(self.cparser, print_colored=True)
+
+        with patch('sys.stdout', new=StringIO()) as fake_out:
+            printer.printsheet()
+            self.assertEqual(fake_out.getvalue(), expected_output)
+
+
     def test_InlinePrinter(self):
         """
         Testing if the InlinePrinter does its job.
@@ -67,7 +86,7 @@ class PrinterTest(unittest.TestCase):
 
         expected_output = lines[0] + lines[1] + lines[2]
 
-        printer = cp.InlinePrinter(self.cparser)
+        printer = cp.InlinePrinter(self.cparser, print_colored=False)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -78,7 +97,7 @@ class PrinterTest(unittest.TestCase):
         Test to see if the calculated width is correct.
         """
 
-        printer = cp.InlinePrinter(self.cparser)
+        printer = cp.InlinePrinter(self.cparser, print_colored=False)
 
         expected_length = str(len('Test Cheat A'))
         self.assertEqual(printer.width, expected_length)
@@ -95,7 +114,7 @@ class PrinterTest(unittest.TestCase):
 
         expected_output = lines[0] + lines[1] + lines[2]
 
-        printer = cp.BreaklinePrinter(self.cparser)
+        printer = cp.BreaklinePrinter(self.cparser, print_colored=False)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
