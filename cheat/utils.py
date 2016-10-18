@@ -19,3 +19,9 @@ def print_available_sheets(directory):
                 cp.read(os.path.join(root, name))
                 output = " {0}".format(cp['main']['name'])
                 print(output)
+
+class colors:
+
+    DEFAULT = '\033[94m'
+    PARAM = '\033[93m'
+    RESET = '\033[1;m'

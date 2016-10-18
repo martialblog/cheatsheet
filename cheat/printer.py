@@ -5,7 +5,7 @@ class Printer:
     Base class for the cheatsheet printers. Takes care of the actuall printing.
     """
 
-    def __init__(self, configparser, print_colored=True):
+    def __init__(self, configparser, colors, print_colored=True):
         """
         BaseClass constucter.
 
@@ -14,6 +14,7 @@ class Printer:
         """
 
         self.configparser = configparser
+        self.colors = colors
         self.print_colored = print_colored
 
     def add_color(self, string):
@@ -21,14 +22,14 @@ class Printer:
         Adds color to the console output.
         """
 
-        CMD_BLUE = '\033[94m'
-        CMD_YELLOW = '\033[93m'
-        CMD_RESET = '\033[1;m'
+        default_color = self.colors.DEFAULT
+        param_color = self.colors.PARAM
+        reset_color = self.colors.RESET
 
-        string = string.replace('<', CMD_YELLOW + '<')
-        string = string.replace('>', '>' + CMD_RESET)
+        string = string.replace('<', param_color + '<')
+        string = string.replace('>', '>' + reset_color)
 
-        colored = CMD_BLUE + string + CMD_RESET
+        colored = default_color + string + reset_color
 
         return colored
 

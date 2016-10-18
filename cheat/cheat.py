@@ -46,7 +46,10 @@ def main():
     filename = directory + cmd_arguments.cheatsheet + extention
     CheatPrinterConstructor = PrinterFactory.create_printer(cmd_arguments.printer)
     configparser = ConfigParser()
-    cheatprinter = CheatPrinterConstructor(configparser, cmd_arguments.nocolor)
+    colors = u.colors
+    print_colored = cmd_arguments.nocolor
+
+    cheatprinter = CheatPrinterConstructor(configparser, colors, print_colored)
 
     try:
         configparser.read(filename)
