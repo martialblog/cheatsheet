@@ -1,19 +1,36 @@
 #!/usr/bin/env/python3
 
-
 class Printer:
     """
     Base class for the cheatsheet printers. Takes care of the actuall printing.
     """
 
-    def __init__(self, configparser):
+    def __init__(self, configparser, print_colored=True):
         """
         BaseClass constucter.
 
         :param configparser: ConfigParser object with the cheatsheets.
+        :param print_colored: Print console output with color or not.
         """
 
         self.configparser = configparser
+        self.print_colored = print_colored
+
+    def add_color(self, string):
+        """
+        Adds color to the console output.
+        """
+
+        CMD_BLUE = '\033[94m'
+        CMD_YELLOW = '\033[93m'
+        CMD_RESET = '\033[1;m'
+
+        string = string.replace('<', CMD_YELLOW + '<')
+        string = string.replace('>', '>' + CMD_RESET)
+
+        colored = CMD_BLUE + string + CMD_RESET
+
+        return colored
 
     def printsheet(self, template):
         """
@@ -24,7 +41,9 @@ class Printer:
 
         for description in self.configparser['cheats']:
             value = self.configparser['cheats'][description]
+            value = self.add_color(value) if self.print_colored else value
             output = template.format(description, value)
+
             print(output)
 
 

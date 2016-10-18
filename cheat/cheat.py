@@ -25,6 +25,7 @@ def main():
     printertype = argumentparser.add_mutually_exclusive_group()
 
     argumentparser.add_argument('--list', dest='listcheats', action="store_true", required=False, help=help_list)
+    argumentparser.add_argument('--nc', dest='nocolor', action="store_false", required=False, help=help_list)
     argumentparser.add_argument('cheatsheet', nargs='?', help=help_general)
 
     printertype.set_defaults(printer='InlinePrinter')
@@ -45,7 +46,7 @@ def main():
     filename = directory + cmd_arguments.cheatsheet + extention
     CheatPrinterConstructor = PrinterFactory.create_printer(cmd_arguments.printer)
     configparser = ConfigParser()
-    cheatprinter = CheatPrinterConstructor(configparser)
+    cheatprinter = CheatPrinterConstructor(configparser, cmd_arguments.nocolor)
 
     try:
         configparser.read(filename)
