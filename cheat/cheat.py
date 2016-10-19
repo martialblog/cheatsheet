@@ -17,6 +17,7 @@ def main():
     description = "Cool Command-line Cheatsheets"
     help_general = "The cheatsheet you want to see"
     help_list = "List all available Cheatsheets"
+    help_colors = "Print output without colors"
     help_inline = "One cheat per line, this is default"
     help_breakline = "Break lines"
 
@@ -25,7 +26,7 @@ def main():
     printertype = argumentparser.add_mutually_exclusive_group()
 
     argumentparser.add_argument('--list', dest='listcheats', action="store_true", required=False, help=help_list)
-    argumentparser.add_argument('--nc', dest='nocolor', action="store_false", required=False, help=help_list)
+    argumentparser.add_argument('--nc', dest='nocolor', action="store_false", required=False, help=help_colors)
     argumentparser.add_argument('cheatsheet', nargs='?', help=help_general)
 
     printertype.set_defaults(printer='InlinePrinter')
