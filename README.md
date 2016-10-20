@@ -41,6 +41,8 @@ And away we go!
 user@computer$ cheat git
 ```
 
+![Cheat Screenshot](cheat-screenshot.png?raw=true "Cheat Screenshot")
+
 To list all available cheatsheets:
 
 ```bash
@@ -49,3 +51,6 @@ user@computer$ cheat --list
 
 ###Custom cheatsheets
 You can add custom cheatsheet that will be "gitgnored" by using the prexif **my-**
+
+
+
