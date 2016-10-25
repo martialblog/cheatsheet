@@ -9,11 +9,12 @@ from printer import PrinterFactory
 from sys import exit
 
 
-def main():
-    # GENERAL SETTINGS!
-    file_dir = os.path.dirname(os.path.realpath(__file__))
-    directory = os.path.join(file_dir, "sheets/")
-    extention = ".ini"
+cheats_filedir = os.path.dirname(os.path.realpath(__file__))
+cheats_directory = os.path.join(cheats_filedir, "sheets/")
+
+
+def commandline():
+
     description = "Cool Command-line Cheatsheets"
     help_general = "The cheatsheet you want to see"
     help_list = "List all available Cheatsheets"
@@ -21,7 +22,6 @@ def main():
     help_inline = "One cheat per line, this is default"
     help_breakline = "Break lines"
 
-    # COMMAND-LINE ARGUMENTS!
     argumentparser = ArgumentParser(description=description)
     printertype = argumentparser.add_mutually_exclusive_group()
 
@@ -33,24 +33,30 @@ def main():
     printertype.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
     printertype.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
 
-    # WHERE THE RUBBER MEETS THE ROAD!
     cmd_arguments = argumentparser.parse_args()
 
     if cmd_arguments.listcheats:
-        u.print_available_sheets(directory)
+        u.print_available_sheets(cheats_directory)
         exit(0)
 
     if cmd_arguments.cheatsheet is None:
         argumentparser.print_help()
         exit(2)
 
-    filename = directory + cmd_arguments.cheatsheet + extention
-    CheatPrinterConstructor = PrinterFactory.create_printer(cmd_arguments.printer)
-    configparser = ConfigParser()
-    colors = u.colors
-    print_colored = cmd_arguments.nocolor
+    return cmd_arguments
 
-    cheatprinter = CheatPrinterConstructor(configparser, colors, print_colored)
+
+def main(cmd_args):
+
+    extension = ".ini"
+    filename = cheats_directory + cmd_args.cheatsheet + extension
+
+    configparser = ConfigParser()
+    CheatPrinterConstructor = PrinterFactory.create_printer(cmd_args.printer)
+    colors = u.colors
+    printcolored = cmd_args.nocolor
+
+    cheatprinter = CheatPrinterConstructor(configparser, colors, printcolored)
 
     try:
         configparser.read(filename)
@@ -65,5 +71,8 @@ def main():
     finally:
         exit(exitcode)
 
+
 if __name__ == "__main__":
-    main()
+
+    args = commandline()
+    main(args)
