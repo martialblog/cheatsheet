@@ -9,10 +9,6 @@ from printer import PrinterFactory
 from sys import exit
 
 
-cheats_filedir = os.path.dirname(os.path.realpath(__file__))
-cheats_directory = os.path.join(cheats_filedir, "sheets/")
-
-
 def commandline():
 
     description = "Cool Command-line Cheatsheets"
@@ -73,6 +69,9 @@ def main(cmd_args):
 
 
 if __name__ == "__main__":
+
+    cheats_filedir = os.path.dirname(os.path.realpath(__file__))
+    cheats_directory = os.path.join(cheats_filedir, "sheets/")
 
     args = commandline()
     main(args)
