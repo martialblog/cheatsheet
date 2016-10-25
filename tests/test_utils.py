@@ -33,3 +33,14 @@ class UtilTest(unittest.TestCase):
         with patch('sys.stdout', new=StringIO()) as fake_out:
             u.print_available_sheets(self.directory)
             self.assertEqual(fake_out.getvalue(), expected_output)
+
+
+    def test_colors(self):
+        """
+        Test of the color class
+        """
+
+        expected_output = "\033[94m"
+        output = u.colors.DEFAULT
+
+        self.assertEqual(output, expected_output)

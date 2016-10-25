@@ -25,6 +25,18 @@ class MainTest(unittest.TestCase):
         self.exit_1 = 1 << 8
         self.exit_2 = 2 << 8
 
+    def test_main_list(self):
+        """
+        Lazy testing of the main function.
+        Checks the exitcode if the list is displayed.
+        """
+
+        command = '/usr/bin/env python3 cheat/cheat.py --list > /dev/null'
+        status = os.system(command)
+
+        self.assertEqual(status, self.exit_0)
+
+
     def test_main_success(self):
         """
         Lazy testing of the main function.
