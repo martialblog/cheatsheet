@@ -6,4 +6,12 @@ python:
   - "3.5-dev" # 3.5 development branch
   - "nightly" # currently points to 3.6-dev
 # command to run tests
-script: python -m unittest discover
+install:
+  - pip install coveralls
+  - pip install coverage
+script:
+  - python -m unittest discover
+  - coverage run cheat/cheat.py git
+  - coverage report -m cheat/cheat.py
+after_success:
+    coveralls

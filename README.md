@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/martialblog/cheatsheet.svg?branch=master)](https://travis-ci.org/martialblog/cheatsheet)
+[![Build Status](https://travis-ci.org/martialblog/cheatsheet.svg?branch=master)](https://travis-ci.org/martialblog/cheatsheet) [![Coverage Status](https://coveralls.io/repos/github/martialblog/cheatsheet/badge.svg?branch=master)](https://coveralls.io/github/martialblog/cheatsheet?branch=master)
 
 #Commandline Cheatsheets
 Everybody likes cheatsheets. If you're like me and use lots of different tools but you can't remember all those cool shortcuts to impress your colleagues.
