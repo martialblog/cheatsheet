@@ -55,5 +55,14 @@ user@computer$ cheat --list
 
 You can add custom cheatsheet that will be "gitgnored" by using the prexif **my-**
 
+# Contributing
 
+Every Pull Request is welcome, either to extend features or to add new cheatsheets.
 
+## Unittest
+
+To run the Unittests simply run the Python Unittest Module within the repository:
+
+```bash
+python3 -m unittest -v
+```
