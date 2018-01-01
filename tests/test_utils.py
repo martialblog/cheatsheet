@@ -28,10 +28,10 @@ class UtilTest(unittest.TestCase):
         Test of the print all cheatsheets function
         """
 
-        expected_output = " unittest\n"
+        expected_output = "unittest\n"
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
-            u.print_available_sheets(self.directory)
+            u.print_available_sheets(os.path.join(self.directory, "testsheets"))
             self.assertEqual(fake_out.getvalue(), expected_output)
 
 
@@ -41,6 +41,6 @@ class UtilTest(unittest.TestCase):
         """
 
         expected_output = "\033[94m"
-        output = u.colors.DEFAULT
+        output = u.Colors.DEFAULT
 
         self.assertEqual(output, expected_output)

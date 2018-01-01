@@ -57,7 +57,7 @@ class MainTest(unittest.TestCase):
         command = '/usr/bin/env python3 cheat/cheat.py not_available > /dev/null 2>&1'
         result = os.system(command)
 
-        self.assertEqual(result, self.exit_1)
+        self.assertEqual(result, self.exit_2)
 
     def test_main_failure_no_argument(self):
         """

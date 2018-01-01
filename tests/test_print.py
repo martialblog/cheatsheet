@@ -10,6 +10,7 @@ from unittest.mock import patch
 import cheat.printer as cp
 import cheat.utils as u
 
+
 class PrinterTest(unittest.TestCase):
     """
     Some basic tests to check the Printer classes.
@@ -22,7 +23,7 @@ class PrinterTest(unittest.TestCase):
         """
 
         directory = os.path.dirname(os.path.realpath(__file__))
-        testfile = os.path.join(directory, "test.ini")
+        testfile = os.path.join(directory, "testsheets", "test.ini")
         self.cparser = ConfigParser()
         self.cparser.read(testfile)
 
@@ -67,7 +68,7 @@ class PrinterTest(unittest.TestCase):
 
         expected_output = lines[0] + lines[1] + lines[2]
 
-        printer = cp.InlinePrinter(self.cparser, u.colors, print_colored=True)
+        printer = cp.InlinePrinter(self.cparser, u.Colors, print_colored=True)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -86,7 +87,7 @@ class PrinterTest(unittest.TestCase):
 
         expected_output = lines[0] + lines[1] + lines[2]
 
-        printer = cp.InlinePrinter(self.cparser, u.colors, print_colored=False)
+        printer = cp.InlinePrinter(self.cparser, u.Colors, print_colored=False)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -97,7 +98,7 @@ class PrinterTest(unittest.TestCase):
         Test to see if the calculated width is correct.
         """
 
-        printer = cp.InlinePrinter(self.cparser, u.colors, print_colored=False)
+        printer = cp.InlinePrinter(self.cparser, u.Colors, print_colored=False)
 
         expected_length = str(len('Test Cheat A'))
         self.assertEqual(printer.width, expected_length)
@@ -114,7 +115,7 @@ class PrinterTest(unittest.TestCase):
 
         expected_output = lines[0] + lines[1] + lines[2]
 
-        printer = cp.BreaklinePrinter(self.cparser, u.colors, print_colored=False)
+        printer = cp.BreaklinePrinter(self.cparser, u.Colors, print_colored=False)
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
             printer.printsheet()
@@ -132,9 +133,9 @@ class PrinterTest(unittest.TestCase):
 
         expected_output = lines[0] + lines[1] + lines[2]
 
-        printer = cp.Printer(self.cparser, u.colors)
+        printer = cp.Printer(self.cparser, u.Colors)
         template = "{0}"
 
         with patch('sys.stdout', new=StringIO()) as fake_out:
-            printer.printsheet(template)
+            printer.printcheats(template)
             self.assertEqual(fake_out.getvalue(), expected_output)

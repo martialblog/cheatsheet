@@ -1,3 +1,3 @@
 # pylint config
 [MESSAGES CONTROL]
-disable=too-few-public-methods, line-too-long, no-name-in-module
+disable=too-few-public-methods, line-too-long, no-name-in-module, import-error
