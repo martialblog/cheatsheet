@@ -55,7 +55,7 @@ class Printer:
         for description in self.configparser['cheats']:
             value = self.configparser['cheats'][description]
             value = self.add_color(value) if self.print_colored else value
-            output = template.format(description, value)
+            output = template.format(description.capitalize(), value)
 
             print(output)
 

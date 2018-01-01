@@ -62,9 +62,9 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["test cheat a \x1b[94mlorem\x1b[1;m\n",
-                 "test cheat b \x1b[94mipsum\x1b[1;m\n",
-                 "test cheat c \x1b[94mdolor\x1b[1;m\n"]
+        lines = ["Test cheat a \x1b[94mlorem\x1b[1;m\n",
+                 "Test cheat b \x1b[94mipsum\x1b[1;m\n",
+                 "Test cheat c \x1b[94mdolor\x1b[1;m\n"]
 
         expected_output = lines[0] + lines[1] + lines[2]
 
@@ -75,15 +75,15 @@ class PrinterTest(unittest.TestCase):
             self.assertEqual(fake_out.getvalue(), expected_output)
 
 
-    def test_InlinePrinter(self):
+    def Test_InlinePrinter(self):
         """
         Testing if the InlinePrinter does its job.
         """
 
         # Done this way for better readablility.
-        lines = ["test cheat a lorem\n",
-                 "test cheat b ipsum\n",
-                 "test cheat c dolor\n"]
+        lines = ["Test cheat a lorem\n",
+                 "Test cheat b ipsum\n",
+                 "Test cheat c dolor\n"]
 
         expected_output = lines[0] + lines[1] + lines[2]
 
@@ -109,9 +109,9 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["test cheat a \n lorem\n",
-                 "test cheat b \n ipsum\n",
-                 "test cheat c \n dolor\n"]
+        lines = ["Test cheat a \n lorem\n",
+                 "Test cheat b \n ipsum\n",
+                 "Test cheat c \n dolor\n"]
 
         expected_output = lines[0] + lines[1] + lines[2]
 
@@ -127,9 +127,9 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["test cheat a\n",
-                 "test cheat b\n",
-                 "test cheat c\n"]
+        lines = ["Test cheat a\n",
+                 "Test cheat b\n",
+                 "Test cheat c\n"]
 
         expected_output = lines[0] + lines[1] + lines[2]
 
