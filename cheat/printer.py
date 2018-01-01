@@ -1,5 +1,15 @@
 #!/usr/bin/env/python3
 
+
+"""
+Printer Classes.
+Handle the printing of the cheatsheet files.
+
+The factory pattern creates a Printer Object from the commandline arguments.
+Meaning that there's no need for an elaborate if-else condition.
+"""
+
+
 class Printer:
     """
     Base class for the cheatsheet printers. Takes care of the actuall printing.
@@ -20,6 +30,8 @@ class Printer:
     def add_color(self, string):
         """
         Adds color to the console output.
+
+        :param string: The string to add color to.
         """
 
         default_color = self.colors.DEFAULT
@@ -33,7 +45,7 @@ class Printer:
 
         return colored
 
-    def printsheet(self, template):
+    def printcheats(self, template):
         """
         Loops over the entries in the ConfigParser and prints them with a specific template.
 
@@ -69,7 +81,7 @@ class InlinePrinter(Printer):
         """
 
         print_format = "{0:<" + self.width + "} {1}"
-        super().printsheet(print_format)
+        super().printcheats(print_format)
 
 
 class BreaklinePrinter(Printer):
@@ -83,7 +95,7 @@ class BreaklinePrinter(Printer):
         """
 
         print_format = "{0} \n {1}"
-        super().printsheet(print_format)
+        super().printcheats(print_format)
 
 
 class PrinterFactory:
