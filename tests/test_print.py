@@ -62,11 +62,11 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["Test cheat a \x1b[94mlorem\x1b[1;m\n",
+        lines = ["CHEATS\n", "Test cheat a \x1b[94mlorem\x1b[1;m\n",
                  "Test cheat b \x1b[94mipsum\x1b[1;m\n",
                  "Test cheat c \x1b[94mdolor\x1b[1;m\n"]
 
-        expected_output = lines[0] + lines[1] + lines[2]
+        expected_output = ''.join(lines)
 
         printer = cp.InlinePrinter(self.cparser, u.Colors, print_colored=True)
 
@@ -81,11 +81,11 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["Test cheat a lorem\n",
+        lines = ["CHEATS\n", "Test cheat a lorem\n",
                  "Test cheat b ipsum\n",
                  "Test cheat c dolor\n"]
 
-        expected_output = lines[0] + lines[1] + lines[2]
+        expected_output = ''.join(lines)
 
         printer = cp.InlinePrinter(self.cparser, u.Colors, print_colored=False)
 
@@ -109,11 +109,11 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["Test cheat a \n lorem\n",
+        lines = ["CHEATS\n", "Test cheat a \n lorem\n",
                  "Test cheat b \n ipsum\n",
                  "Test cheat c \n dolor\n"]
 
-        expected_output = lines[0] + lines[1] + lines[2]
+        expected_output = ''.join(lines)
 
         printer = cp.BreaklinePrinter(self.cparser, u.Colors, print_colored=False)
 
@@ -127,11 +127,11 @@ class PrinterTest(unittest.TestCase):
         """
 
         # Done this way for better readablility.
-        lines = ["Test cheat a\n",
+        lines = ["CHEATS\n", "Test cheat a\n",
                  "Test cheat b\n",
                  "Test cheat c\n"]
 
-        expected_output = lines[0] + lines[1] + lines[2]
+        expected_output = ''.join(lines)
 
         printer = cp.Printer(self.cparser, u.Colors)
         template = "{0}"

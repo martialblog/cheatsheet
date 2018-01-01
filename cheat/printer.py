@@ -52,12 +52,16 @@ class Printer:
         :param template: Template to use with the format() function.
         """
 
-        for description in self.configparser['cheats']:
-            value = self.configparser['cheats'][description]
-            value = self.add_color(value) if self.print_colored else value
-            output = template.format(description.capitalize(), value)
+        sections = self.configparser.sections()
+        sections.remove('main')
 
-            print(output)
+        for section in sections:
+            print(section.upper())
+            for description in self.configparser[section]:
+                value = self.configparser[section][description]
+                value = self.add_color(value) if self.print_colored else value
+                output = template.format(description.capitalize(), value)
+                print(output)
 
 
 class InlinePrinter(Printer):
@@ -71,7 +75,13 @@ class InlinePrinter(Printer):
         Width of the longest ConfigParser entry.
         """
 
-        width = len(max(self.configparser['cheats'], key=len))
+        width = 1
+
+        # Calculate new width
+        for section in self.configparser.sections():
+            longest_width = len(max(self.configparser[section], key=len))
+            if longest_width > width:
+                width = longest_width
 
         return str(width)
 
@@ -104,8 +114,8 @@ class PrinterFactory:
     """
 
     printer_classes = {
-        "InlinePrinter": InlinePrinter,
-        "BreaklinePrinter": BreaklinePrinter
+        'InlinePrinter': InlinePrinter,
+        'BreaklinePrinter': BreaklinePrinter
     }
 
     @staticmethod
