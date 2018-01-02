@@ -3,13 +3,13 @@ python:
   - "3.3"
   - "3.4"
   - "3.5"
-  - "3.5-dev" # 3.5 development branch
-  - "nightly" # currently points to 3.6-dev
-# command to run tests
+  - "3.6"
 install:
   - pip install coveralls
   - pip install coverage
+  - pip install pylint
 script:
+  - pylint cheat
   - python -m unittest discover
   - coverage run -m unittest discover
   - coverage report -m

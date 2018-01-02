@@ -1,22 +1,31 @@
 #!/usr/bin/env python3
 
 
-import os
-import utils as u
+"""
+Main script, where all parts come together.
+containers Argument Parser for commandline arguments and main function.
+"""
+
+
 from argparse import ArgumentParser
 from configparser import ConfigParser
+from configparser import Error as ConfigParserError
+from os import path
 from printer import PrinterFactory
-from sys import exit
+from utils import print_available_sheets, Colors
 
 
 def commandline():
+    """
+    Configures the Argument Parser and returns the parsed commandline args.
+    """
 
-    description = "Cool Command-line Cheatsheets"
-    help_general = "The cheatsheet you want to see"
-    help_list = "List all available Cheatsheets"
-    help_colors = "Print output without colors"
-    help_inline = "One cheat per line, this is default"
-    help_breakline = "Break lines"
+    description = 'Cool Command-line Cheatsheets'
+    help_general = 'The cheatsheet you want to see'
+    help_list = 'List all available cheatsheets'
+    help_colors = 'Print output without colors'
+    help_inline = 'One cheat per line, this is the default'
+    help_breakline = 'Break lines'
 
     argumentparser = ArgumentParser(description=description)
     printertype = argumentparser.add_mutually_exclusive_group()
@@ -29,49 +38,56 @@ def commandline():
     printertype.add_argument('-l', help=help_inline, action='store_const', dest='printer', const='InlinePrinter')
     printertype.add_argument('-b', help=help_breakline, action='store_const', dest='printer', const='BreaklinePrinter')
 
-    cmd_arguments = argumentparser.parse_args()
+    return argumentparser
 
-    if cmd_arguments.listcheats:
-        u.print_available_sheets(cheats_directory)
+
+def main(argparser):
+    """
+    Where the magic happens.
+
+    :param argparser: Configures Argument Parser
+    """
+
+    cmdargs = argparser.parse_args()
+    filedir = path.dirname(path.abspath(__file__ + '../../'))
+    cheatsheetdir = path.join(filedir, 'cheatsheets/')
+    extension = '.ini'
+    filename = cheatsheetdir + str(cmdargs.cheatsheet) + extension
+
+    # Lists the Cheatsheats
+    if cmdargs.listcheats:
+        print_available_sheets(cheatsheetdir)
         exit(0)
 
-    if cmd_arguments.cheatsheet is None:
-        argumentparser.print_help()
+    # Print help if nothing is provided
+    if cmdargs.cheatsheet is None:
+        argparser.print_help()
         exit(2)
 
-    return cmd_arguments
+    # Check if file is available
+    if not path.isfile(filename):
+        print(filename + ' is not available.')
+        exit(2)
 
-
-def main(cmd_args):
-
-    extension = ".ini"
-    filename = cheats_directory + cmd_args.cheatsheet + extension
-
+    # Build the Printer
     configparser = ConfigParser()
-    CheatPrinterConstructor = PrinterFactory.create_printer(cmd_args.printer)
-    colors = u.colors
-    printcolored = cmd_args.nocolor
+    printer_constructor = PrinterFactory.create_printer(cmdargs.printer)
+    printcolored = cmdargs.nocolor
+    cheatprinter = printer_constructor(configparser, Colors, printcolored)
 
-    cheatprinter = CheatPrinterConstructor(configparser, colors, printcolored)
-
+    # Read the file and exit script
     try:
         configparser.read(filename)
         cheatprinter.printsheet()
         exitcode = 0
-    except Exception as e:
-        # I know lazy handling... Sorry.
-        # TOOD better exception handling.
-        print(filename + " not available or contains errors.")
-        print(e)
+    except ConfigParserError as exception:
+        print(filename + ' contains error.\n')
+        print(exception)
         exitcode = 1
     finally:
         exit(exitcode)
 
+if __name__ == '__main__':
 
-if __name__ == "__main__":
-
-    cheats_filedir = os.path.dirname(os.path.realpath(__file__))
-    cheats_directory = os.path.join(cheats_filedir, "sheets/")
-
-    args = commandline()
-    main(args)
+    ARGPARSER = commandline()
+    main(ARGPARSER)

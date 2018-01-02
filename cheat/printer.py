@@ -1,5 +1,15 @@
 #!/usr/bin/env/python3
 
+
+"""
+Printer Classes.
+Handle the printing of the cheatsheet files.
+
+The factory pattern creates a Printer Object from the commandline arguments.
+Meaning that there's no need for an elaborate if-else condition.
+"""
+
+
 class Printer:
     """
     Base class for the cheatsheet printers. Takes care of the actuall printing.
@@ -20,6 +30,8 @@ class Printer:
     def add_color(self, string):
         """
         Adds color to the console output.
+
+        :param string: The string to add color to.
         """
 
         default_color = self.colors.DEFAULT
@@ -33,19 +45,23 @@ class Printer:
 
         return colored
 
-    def printsheet(self, template):
+    def printcheats(self, template):
         """
         Loops over the entries in the ConfigParser and prints them with a specific template.
 
         :param template: Template to use with the format() function.
         """
 
-        for description in self.configparser['cheats']:
-            value = self.configparser['cheats'][description]
-            value = self.add_color(value) if self.print_colored else value
-            output = template.format(description, value)
+        sections = self.configparser.sections()
+        sections.remove('main')
 
-            print(output)
+        for section in sections:
+            print(section.upper())
+            for description in self.configparser[section]:
+                value = self.configparser[section][description]
+                value = self.add_color(value) if self.print_colored else value
+                output = template.format(description.capitalize(), value)
+                print(output)
 
 
 class InlinePrinter(Printer):
@@ -59,7 +75,13 @@ class InlinePrinter(Printer):
         Width of the longest ConfigParser entry.
         """
 
-        width = len(max(self.configparser['cheats'], key=len))
+        width = 1
+
+        # Calculate new width
+        for section in self.configparser.sections():
+            longest_width = len(max(self.configparser[section], key=len))
+            if longest_width > width:
+                width = longest_width
 
         return str(width)
 
@@ -69,7 +91,7 @@ class InlinePrinter(Printer):
         """
 
         print_format = "{0:<" + self.width + "} {1}"
-        super().printsheet(print_format)
+        super().printcheats(print_format)
 
 
 class BreaklinePrinter(Printer):
@@ -83,7 +105,7 @@ class BreaklinePrinter(Printer):
         """
 
         print_format = "{0} \n {1}"
-        super().printsheet(print_format)
+        super().printcheats(print_format)
 
 
 class PrinterFactory:
@@ -92,8 +114,8 @@ class PrinterFactory:
     """
 
     printer_classes = {
-        "InlinePrinter": InlinePrinter,
-        "BreaklinePrinter": BreaklinePrinter
+        'InlinePrinter': InlinePrinter,
+        'BreaklinePrinter': BreaklinePrinter
     }
 
     @staticmethod
