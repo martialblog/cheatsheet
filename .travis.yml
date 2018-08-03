@@ -7,7 +7,7 @@ python:
 install:
   - pip install coveralls
   - pip install coverage
-  - pip install pylint
+  - pip install pylint==1.9.3
 script:
   - pylint cheat
   - python -m unittest discover
