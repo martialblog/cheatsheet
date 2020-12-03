@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/martialblog/cheatsheet.svg?branch=master)](https://travis-ci.org/martialblog/cheatsheet) [![Coverage Status](https://coveralls.io/repos/github/martialblog/cheatsheet/badge.svg?branch=master)](https://coveralls.io/github/martialblog/cheatsheet?branch=master)
+[![Build Status](https://travis-ci.com/martialblog/cheatsheet.svg?branch=master)](https://travis-ci.com/martialblog/cheatsheet) [![Coverage Status](https://coveralls.io/repos/github/martialblog/cheatsheet/badge.svg?branch=master)](https://coveralls.io/github/martialblog/cheatsheet?branch=master)
 
 # Commandline Cheatsheets
 
